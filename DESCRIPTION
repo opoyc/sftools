@@ -1,0 +1,20 @@
+Package: sftools
+Title: Automate Statistical Forecasting workflows
+Version: 0.0.1.1
+Authors@R: 
+    person(given = "Obryan",
+           family = "Poyser",
+           role = c("aut", "cre"),
+           email = "obryan.poyser@sanofi.com")
+Description: Set of function to automate Statistical Forecasting workflows
+License: GPL
+Depends: 
+    R(>= 3.4.4)
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr
+Imports: tidyverse, janitor, dplyr, readr, stringr
+Suggests: 
+    knitr,
+    rmarkdown
+RoxygenNote: 6.1.1
