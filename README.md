@@ -1,6 +1,6 @@
 # `sftools`: Statistical Forecasting team's tools
 
-This package is meant to automate collaboration taks and data analysis workflows.
+This package is meant to automate collaboration tasks and data analysis workflows.
 
 ## Updating regressors
 
