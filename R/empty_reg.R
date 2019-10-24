@@ -6,7 +6,11 @@
 #' @author Obryan Poyser
 #' @return two CSV files on users' desktop
 #' @export
-#' @import tidyverse
+#' @import dplyr
+#' @import janitor
+#' @import purrr
+#' @import readr
+#' @import stringr
 #'
 #' @examples empty_reg()
 empty_reg <- function(){

@@ -6,12 +6,12 @@
 #'
 #' @return reg_list and reg_values for regressors names and regressors values
 #' @export
-#' @import
-#'  - dplyr
-#'  - janitor
-#'  - purrr
-#'  - readr
-#'  - stringr
+#'
+#' @import dplyr
+#' @import janitor
+#' @import purrr
+#' @import readr
+#' @import stringr
 #'
 #' @examples load_reg_inputs()
 load_reg_inputs <- function(reg_list_path, reg_values_path){

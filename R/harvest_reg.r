@@ -5,7 +5,11 @@
 #' @param dir_path String. Directory where all the CSV files are located.
 #'
 #' @return Depends on users' selections. Ultimately two tab files "Regressors.tab" and "Edit Regressors Values.tab"
-#' @import tidyverse
+#' @import dplyr
+#' @import janitor
+#' @import purrr
+#' @import readr
+#' @import stringr
 #' @export
 #'
 #' @examples harvest_reg()
@@ -78,9 +82,9 @@ harvest_reg <- function(dir_path){
         message("\n\n--------Analyzing Regressors' list--------\n")
         message("1. Checking for category anomalies")
         if(all((added_reg_list$Category %in% reg_list$Category)==T)==T){
-            message(">>> PASSED (~‾▿‾)~\n")
+            message(">>> PASSED\n")
         } else {
-            message(">>> FAILED (⊙_☉) \n")
+            message(">>> FAILED\n")
             error <- added_reg_list %>%
                 mutate(error=ifelse(Category %in% unique(reg_list$Category), T, F)) %>%
                 filter(error==F)
@@ -95,15 +99,15 @@ harvest_reg <- function(dir_path){
         message("\n\n--------Analyzing Regressors' values--------\n")
         message("1. Checking for names' anomalies in 'reg_values'")
         if(all(is.na(added_reg_values[[1]])==F)==T){
-            message(">>> PASSED  (~‾▿‾)~\n")
+            message(">>> PASSED\n")
         } else {
-            stop(">>> FAILED (⊙_☉) \n")
+            stop(">>> FAILED\n")
         }
         message("2. Checking for category anomalies")
         if(all((added_reg_values$Category %in% reg_list$Category)==T)==T){
-            message(">>> PASSED (~‾▿‾)~\n")
+            message(">>> PASSED~\n")
         } else {
-            message(">>> FAILED (⊙_☉) \n")
+            message(">>> FAILED\n")
             error_cat <- added_reg_values %>%
                 mutate(error=ifelse(Category %in% unique(reg_list$Category), T, F)) %>%
                 filter(error==F)
@@ -112,9 +116,9 @@ harvest_reg <- function(dir_path){
         }
         message("3. Checking for cross-reference with the updated regressors' list")
         if(all(unique(added_reg_values$Regressor) %in% unique(new_reg_list$Name))==T){
-            message(">>> PASSED (~‾▿‾)~\n")
+            message(">>> PASSED\n")
         } else {
-            message(">>> FAILED (⊙_☉) \n")
+            message(">>> FAILED\n")
             error_name <- added_reg_values %>%
                 mutate(error=ifelse(Regressor %in% unique(new_reg_list$Name), T, F)) %>%
                 filter(error==F)
@@ -123,19 +127,19 @@ harvest_reg <- function(dir_path){
         }
         message("4. Filtering unique values")
         new_reg_values <- unique(new_reg_values)
-        message(">>> PASSED (~‾▿‾)~\n")
+        message(">>> PASSED\n")
     }
 
     # Exporting dialogues--------------------------------------------------------------
 
     if(menu(choices = c("Yes", "No")
-            , title = "Do you want to export new regressors' and append frames to the current environment?")==1){
+            , title = "Do you want to export the appended frames to the current environment?")==1){
         new_reg_values <<- new_reg_values
         new_reg_list <<- new_reg_list
         message("New objects have been added to your environment: new_reg_values & new_reg_list")
     }
     if(menu(choices = c("Yes", "No")
-            , title = "Do you want to export the final regressor's tables to your desktop?")==1){
+            , title = "Do you want to export the updated regressor's tables to your desktop?")==1){
         write.table(new_reg_values
                     , paste0("C:/Users/"
                              , Sys.info()[["user"]]
