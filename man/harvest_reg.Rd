@@ -17,5 +17,7 @@ This functions perform several task, first it loads the files into the environme
 brings the possibility to do sanity checks to prevent importing error in Kinaxis
 }
 \examples{
+\dontrun{
 harvest_reg()
+}
 }

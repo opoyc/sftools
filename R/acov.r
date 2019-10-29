@@ -9,8 +9,7 @@
 #' @author Obryan Poyser
 #' @import purrr
 #'
-#' @examples
-#' acov(AirPassengers)
+#' @examples acov(AirPassengers)
 acov <- purrr::possibly(function(series){
     series <- series[!cumsum(series)==0]
     class <- class(series)

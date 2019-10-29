@@ -13,7 +13,10 @@
 #' @import readr
 #' @import stringr
 #'
-#' @examples load_reg_inputs()
+#' @examples
+#' \dontrun{
+#' load_reg_inputs()
+#' }
 load_reg_inputs <- function(reg_list_path, reg_values_path){
     if(missing(reg_list_path)==T | missing(reg_values_path)){
         readline(prompt = "Select 'Regressors.tab' file \nPress [ENTER] to continue")

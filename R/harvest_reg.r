@@ -12,7 +12,10 @@
 #' @import stringr
 #' @export
 #'
-#' @examples harvest_reg()
+#' @examples
+#' \dontrun{
+#' harvest_reg()
+#' }
 harvest_reg <- function(dir_path){
 
     # Selection source

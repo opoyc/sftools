@@ -12,7 +12,10 @@
 #' @import readr
 #' @import stringr
 #'
-#' @examples empty_reg()
+#' @examples
+#' \dontrun{
+#' empty_reg()
+#' }
 empty_reg <- function(){
     readline(prompt="This function will create 2 empty CSV file in your desktop:
              - reg_list: describes the new regressors

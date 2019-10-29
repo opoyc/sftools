@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_reg_inputs.R
 \name{load_reg_inputs}
 \alias{load_reg_inputs}
-\title{Loads regressors' inputs}
+\title{Loads regressors' inputs: values and names}
 \usage{
 load_reg_inputs(reg_list_path, reg_values_path)
 }
@@ -18,5 +18,7 @@ reg_list and reg_values for regressors names and regressors values
 Loading input .tab files from Kinaxis tables Regressors and Edit Regressors Values' worksheets
 }
 \examples{
+\dontrun{
 load_reg_inputs()
+}
 }

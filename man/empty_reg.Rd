@@ -15,7 +15,9 @@ include regressors' values and other for regressors' names,
 for Regressors and Edit Regressors Values respectively.
 }
 \examples{
+\dontrun{
 empty_reg()
+}
 }
 \author{
 Obryan Poyser
