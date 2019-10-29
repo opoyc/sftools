@@ -1,6 +1,6 @@
 Package: sftools
 Title: Automate Statistical Forecasting workflows
-Version: 0.0.1.1
+Version: 0.0.1.2
 Authors@R: 
     person(given = "Obryan",
            family = "Poyser",
@@ -13,7 +13,7 @@ Depends:
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-Imports: tidyverse, janitor, dplyr, readr, stringr
+Imports: tidyverse, janitor, dplyr, readr, stringr, DescTools, dvmisc
 Suggests: 
     knitr,
     rmarkdown

@@ -1,4 +1,4 @@
-#' Loads regressors' inputs
+#' Loads regressors' inputs: values and names
 #'
 #' Loading input .tab files from Kinaxis tables Regressors and Edit Regressors Values' worksheets
 #' @param reg_list_path String. Path where the Regressors' names are located
