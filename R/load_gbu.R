@@ -3,7 +3,6 @@
 #' @param gbu_path string. Has the default directory
 #'
 #' @return tibble
-#' @export
 #' @author Obryan Poyser
 #'
 #' @examples
@@ -21,5 +20,5 @@ load_gbu <- function(gbu_path){
         dplyr::select(key, gmid=GMID.Code, gbu=GBU) %>%
         unique() %>%
         filter(gbu!="")
-    message("GBU (original source) and gbu (tidy version) have been exported to the global env.")
+    message("gbu (tidy version) have been exported to the global env.")
 }

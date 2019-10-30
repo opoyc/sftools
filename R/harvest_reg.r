@@ -35,9 +35,6 @@ harvest_reg <- function(dir_path){
     reg_values_data <- purrr::map(paste0(dir_path, reg_values_files)
                                   , .f = ~suppressMessages(readr::read_csv(.x)))
 
-    # Naming frames
-    names(reg_list_data) <- stringr::str_remove_all(reg_list_files, "_reg_list.csv")
-    names(reg_values_data) <- stringr::str_remove_all(reg_values_files, "_reg_values.csv")
 
     message(
         paste0(names(reg_list_data)," added ", map(reg_list_data, nrow), " regressors \n")
@@ -57,15 +54,21 @@ harvest_reg <- function(dir_path){
                                                             , Month=ifelse(Month==12, 1, Month+1)
                                                      )
                                                  )
-                                   })
+                                   }) %>% ungroup()
                                ) %>%
             unique()
     }
+
+    # Naming frames
+    names(reg_list_data) <- stringr::str_remove_all(reg_list_files, "_reg_list.csv")
+    names(reg_values_data) <- stringr::str_remove_all(reg_values_files, "_reg_values.csv")
+
 
     # binding values
 
     added_reg_values <- bind_rows(reg_values_data, .id = "user") %>%
         mutate(Date=paste0(str_pad(Month, width = 2, pad = "0", side = "left"), "-01-", Year)) %>%
+        ungroup() %>%
         dplyr::select(user, Regressor, Category, Date, Quantity)
     added_reg_list <- bind_rows(reg_list_data, .id = "user") %>%
         mutate(Select="N") %>%
@@ -73,7 +76,7 @@ harvest_reg <- function(dir_path){
 
     # Append new values to the old tables
 
-    new_reg_values <- bind_rows(reg_values, added_reg_values[,-1])
+    new_reg_values <- bind_rows(reg_values, added_reg_values[,-c(1)])
     new_reg_list <- bind_rows(reg_list, added_reg_list[,-1])
 
     # data consistency checks
@@ -95,7 +98,7 @@ harvest_reg <- function(dir_path){
             break()
         }
         message("2. Filtering unique regressors' names")
-        new_reg_values <- unique(new_reg_list)
+        new_reg_list <- unique(new_reg_list)
 
         # Analyzing Regressors' values-----------------------------------------------------------
 
@@ -136,7 +139,7 @@ harvest_reg <- function(dir_path){
     # Exporting dialogues--------------------------------------------------------------
 
     if(menu(choices = c("Yes", "No")
-            , title = "Do you want to export the appended frames to the current environment?")==1){
+            , title = "Do you want to export the updated tables to the current environment?")==1){
         new_reg_values <<- new_reg_values
         new_reg_list <<- new_reg_list
         message("New objects have been added to your environment: new_reg_values & new_reg_list")

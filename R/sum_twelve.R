@@ -11,4 +11,4 @@
 sum_twelve <- purrr::possibly(function(series){
     length <- length(series)
     sum(series[(length-11):length], na.rm = T)
-    }, otherwise = NA)
+    }, otherwise = 0)
