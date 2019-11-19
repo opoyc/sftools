@@ -10,6 +10,7 @@
 #' @import purrr
 #' @import readr
 #' @import stringr
+#' @import lubridate
 #' @export
 #'
 #' @examples
@@ -34,7 +35,9 @@ harvest_reg <- function(dir_path){
                                   , .f = ~suppressMessages(readr::read_csv(.x)))
     reg_values_data <- purrr::map(paste0(dir_path, reg_values_files)
                                   , .f = ~suppressMessages(readr::read_csv(.x)))
-
+    # Naming frames
+    names(reg_list_data) <- stringr::str_remove_all(reg_list_files, "_reg_list.csv")
+    names(reg_values_data) <- stringr::str_remove_all(reg_values_files, "_reg_values.csv")
 
     message(
         paste0(names(reg_list_data)," added ", map(reg_list_data, nrow), " regressors \n")
@@ -43,32 +46,34 @@ harvest_reg <- function(dir_path){
 
     # Append zeros to the last value?
 
-    if(menu(c("Yes", "No")
-            , title="Append a Quantiy=0 to the last regressors' value?")==1){
-        reg_values_data <- map(reg_values_data, ~.x %>%
-                                   group_by(Regressor, Category, Month, Year) %>%
-                                   do({
-                                       bind_rows(., .[nrow(.),] %>%
-                                                     mutate(Quantity=0
-                                                            , Year=ifelse(Month==12, Year+1, Year)
-                                                            , Month=ifelse(Month==12, 1, Month+1)
-                                                     )
-                                                 )
-                                   }) %>% ungroup()
-                               ) %>%
-            unique()
-    }
+    message("Appending zeros to regressor's values...")
+    reg_values_data <- reg_values_data %>%
+      bind_rows(.id = "user") %>%
+      mutate(Year=str_sub(Year, start = -2, end=-1)
+             , Date=lubridate::parse_date_time(paste0(Year,"-", Month, "-", "01")
+                                             , orders = "ymd") %>%
+               as.Date()) %>%
+      dplyr::select(-Month, -Year) %>%
+      group_nest(user, Regressor, Category) %>%
+      mutate(data=map(data, function(data) {
+        seq.Date(from = min(data[["Date"]])
+                 , to = max(data[["Date"]]+months(1))
+                 , by = "month") %>%
+          enframe(value = "Date") %>%
+          left_join(data, by="Date") %>%
+          replace_na(list(Quantity=0)) %>%
+          dplyr::select(-name)
+      })) %>%
+      unnest(data) %>%
+      mutate(Date=paste0(str_extract(Date, "(?<=-)[0-9]{2}(?=-)")
+                         , "-01-"
+                         , str_extract(Date, "^[0-9]{4}")))
 
-    # Naming frames
-    names(reg_list_data) <- stringr::str_remove_all(reg_list_files, "_reg_list.csv")
-    names(reg_values_data) <- stringr::str_remove_all(reg_values_files, "_reg_values.csv")
-
+    message("Done!")
 
     # binding values
 
-    added_reg_values <- bind_rows(reg_values_data, .id = "user") %>%
-        mutate(Date=paste0(str_pad(Month, width = 2, pad = "0", side = "left"), "-01-", Year)) %>%
-        ungroup() %>%
+    added_reg_values <- reg_values_data %>%
         dplyr::select(user, Regressor, Category, Date, Quantity)
     added_reg_list <- bind_rows(reg_list_data, .id = "user") %>%
         mutate(Select="N") %>%
