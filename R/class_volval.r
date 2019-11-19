@@ -3,10 +3,12 @@
 #' @param series numeric vector
 #'
 #' @return string
-#' @export
 #' @author Obryan Poyser
 #'
-#' @examples class_volval(AirPassengers)
+#' @examples
+#' \dontrun{
+#' class_volval(AirPassengers)
+#' }
 class_volval <- function(series){
     df <- data.frame(index=1:length(series), series)
     df <- df[order(df[,"series"], decreasing = T),]

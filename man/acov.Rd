@@ -17,7 +17,9 @@ This function calculates the adjusted coefficient of variation from the last 12 
 of a time series.
 }
 \examples{
+\dontrun{
 acov(AirPassengers)
+}
 }
 \author{
 Obryan Poyser

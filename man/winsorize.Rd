@@ -17,7 +17,9 @@ This function performs a signal winsorization. It takes a ts object or a numeric
 For series with more than 24 observation the function winsorizes the remainder of a STL decomposition.
 }
 \examples{
+\dontrun{
 winsorize(AirPassengers)
+}
 }
 \author{
 Jillian Teo

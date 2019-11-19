@@ -16,7 +16,9 @@ string
 Returns the classification of a GMID according to its value or volume
 }
 \examples{
+\dontrun{
 class_volval(AirPassengers)
+}
 }
 \author{
 Obryan Poyser

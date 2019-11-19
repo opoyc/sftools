@@ -10,7 +10,9 @@
 #' @export
 #' @author Jillian Teo
 #'
-#' @examples winsorize(AirPassengers)
+#' @examples \dontrun{
+#' winsorize(AirPassengers)
+#' }
 winsorize = function(time.series, frequency=12){
   initial_class <- class(time.series)
   if (initial_class == "numeric") {

@@ -16,7 +16,9 @@ numeric
 Series sum of the last 12 months
 }
 \examples{
+\dontrun{
 sum_twelve(AirPassengers)
+}
 }
 \author{
 Obryan Poyser
