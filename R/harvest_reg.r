@@ -11,6 +11,8 @@
 #' @import readr
 #' @import stringr
 #' @import lubridate
+#' @import tibble
+#' @import tidyr
 #' @export
 #'
 #' @examples
@@ -67,9 +69,9 @@ harvest_reg <- function(dir_path){
       unnest(data) %>%
       mutate(Date=paste0(str_extract(Date, "(?<=-)[0-9]{2}(?=-)")
                          , "-01-"
-                         , str_extract(Date, "^[0-9]{4}")))
+                         , str_extract(Date, "^[0-9]{4}") %>% str_sub(start = -2, end = -1)))
 
-    message("Done!")
+    message("\n Done! \n")
 
     # binding values
 
