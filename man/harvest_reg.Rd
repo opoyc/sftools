@@ -2,19 +2,27 @@
 % Please edit documentation in R/harvest_reg.r
 \name{harvest_reg}
 \alias{harvest_reg}
-\title{Harvest team members regressors values}
+\title{Harvest Kinaxis regressors}
 \usage{
-harvest_reg(dir_path)
+harvest_reg(reg_list_path, reg_values_path, dir_path)
 }
 \arguments{
-\item{dir_path}{String. Directory where all the CSV files are located.}
+\item{reg_list_path}{String. Path where the **"Regressor.tab"** file is located}
+
+\item{reg_values_path}{String. Path where the **"Edit Regressor Values.tab"** file is located}
+
+\item{dir_path}{String. Directory where all the CSV files are located}
 }
 \value{
-Depends on users' selections. Ultimately two tab files "Regressors.tab" and "Edit Regressors Values.tab"
+reg_list and reg_values for regressors names and regressors values. Ultimately two tab files "Regressors.tab" and "Edit Regressors Values.tab"
 }
 \description{
-This functions perform several task, first it loads the files into the environment then
-brings the possibility to do sanity checks to prevent importing error in Kinaxis
+This functions perform several loading and sanity checks to regressor lists. The process starts
+by attaching to the current environment the most updated version of **"Regressor.tab"** and
+**"Edit Regressor Values.tab"** tables from Kinaxis. Then attachs the new regressors to be added by each user,
+included in a single directory with filenames following the format <userid>_reg_list.csv and
+<userid>_reg_values.csv. Finally, the function appends zero values when neccessary, and performs sanity
+checks to prevent importing errors in Kinaxis.
 }
 \examples{
 \dontrun{

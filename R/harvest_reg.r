@@ -28,36 +28,47 @@
 #' \dontrun{
 #' harvest_reg()
 #' }
-harvest_reg <- function(reg_list_path, reg_values_path, dir_path){
+harvest_reg2 <- function(reg_list_path, reg_values_path, dir_path){
 
   # Attaching regressors files to be updated -----------------------------------
 
-  message("Please attach the regressor's values and names to be updated...")
+  #message("Please attach the regressor's values and names to be updated...")
 
-  if(missing(reg_list_path)==T | missing(reg_values_path)){
-    readline(prompt = "Select 'Regressors.tab' file \nPress [ENTER] to continue")
-    reg_list_path <- file.choose()
-    readline(prompt = "Select 'Edit Regressor Values.tab' file \nPress [ENTER] to continue")
-    reg_values_path <- file.choose()
-  } else {
-    reg_list_path <- reg_list_path
-    reg_values_path <- reg_values_path
-  }
-  suppressMessages(
-    {
-      reg_list <- readr::read_delim(reg_list_path, delim = "\t")
-      reg_values <- readr::read_delim(reg_values_path, delim = "\t")
+  if((exists("reg_values") & exists("reg_list"))==T){
+    if(menu(c("Yes", "No")
+            , title="Regressor values and names currently exist in the environment, do you want to update them?")==1){
+      if(missing(reg_list_path)==T | missing(reg_values_path)){
+        readline(prompt = "Select 'Regressors.tab' file \nPress [ENTER] to continue")
+        reg_list_path <- file.choose()
+        readline(prompt = "Select 'Edit Regressor Values.tab' file \nPress [ENTER] to continue")
+        reg_values_path <- file.choose()
+      } else {
+        reg_list_path <- reg_list_path
+        reg_values_path <- reg_values_path
+      }
+      suppressMessages(
+        {
+          reg_list <- readr::read_delim(reg_list_path, delim = "\t")
+          reg_values <- readr::read_delim(reg_values_path, delim = "\t")
+        }
+      )
+      message(
+        paste0("There are ", nrow(reg_values)," values and ", nrow(reg_list), " regressors"
+               #,  "\nCreated ", file.info(reg_list_path)$ctime
+               #, "\nModified ", file.info(reg_list_path)$mtime
+        )
+      )
+      reg_list <<- reg_list
+      reg_values <<- reg_values
+      message("reg_list and reg_values had been added to your global environment")
+      message("Please select the directory where the new regressors lie...")
+    } else {
+      reg_list <<- reg_list
+      reg_values <<- reg_values
+      message("Please select the directory where the new regressors lie...")
     }
-  )
-  message(
-    paste0("There are ", nrow(reg_values)," values and ", nrow(reg_list), " regressors"
-           #,  "\nCreated ", file.info(reg_list_path)$ctime
-           #, "\nModified ", file.info(reg_list_path)$mtime
-    )
-  )
-  reg_list <<- reg_list
-  reg_values <<- reg_values
-  message("reg_list and reg_values had been added to your global environment")
+  }
+
 
   # Collecting new regressors --------------------------------------------------
 
@@ -98,6 +109,7 @@ harvest_reg <- function(reg_list_path, reg_values_path, dir_path){
     dplyr::select(-Month, -Year) %>%
     group_nest(user, Regressor, Category) %>%
     mutate(data=map(data, function(data) {
+      data <- data %>% filter(Quantity!=0)
       seq.Date(from = min(data[["Date"]])
                , to = max(data[["Date"]]+months(1))
                , by = "month") %>%
