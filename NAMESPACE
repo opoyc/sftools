@@ -3,7 +3,7 @@
 export(acov)
 export(astd)
 export(empty_reg)
-export(harvest_reg)
+export(harvest_reg2)
 export(outlier_method)
 export(winsorize)
 import(DescTools)
