@@ -19,21 +19,21 @@ This package is meant to gather the functions we commonly use, automate collabor
 ## Functions:
 
 1. Statistical
-  1. Adjusted Coefficient of Variance `sftools::acov()`
-  1. Winsorization `sftools::winsorize()`
-  1. Outlier method `sftools::outlier_method()`
-  1. Seasonality detection `sftools::seas_detect()` *(beta)*
-  1. Generate fitted `sftools::generate_fitted()`
-  1. Recommend starting date `sftools::tscut()`
+   1. Adjusted Coefficient of Variance `sftools::acov()`
+   1. Winsorization `sftools::winsorize()`
+   1. Outlier method `sftools::outlier_method()`
+   1. Seasonality detection `sftools::seas_detect()` *(beta)*
+   1. Generate fitted `sftools::generate_fitted()`
+   1. Recommend starting date `sftools::tscut()`
 1. Summary 
-  1. Filter the last 12 months `sftools:::sum_twelve()`
-  1. Generate segmentation classes `sftools:::class_volval()`
+   1. Filter the last 12 months `sftools:::sum_twelve()`
+   1. Generate segmentation classes `sftools:::class_volval()`
 1. Load common databases
-  1. Wrangled/tidy version of GBU db `sftools:::load_gbu()`
-  1. Wrangled/tidy version of Life Savers db `sftools:::load_lifesavers()`
+   1. Wrangled/tidy version of GBU db `sftools:::load_gbu()`
+   1. Wrangled/tidy version of Life Savers db `sftools:::load_lifesavers()`
 1. Updating regressor table
-  1. Create a template were to fill the regressors `sftools::empty_reg()` (soft deprecated due to KNX update)
-  1. Gather teams' regressors `sftools::harvest_reg()` (soft deprecated due to KNX update)
+   1. Create a template were to fill the regressors `sftools::empty_reg()` (soft deprecated due to KNX update)
+   1. Gather teams' regressors `sftools::harvest_reg()` (soft deprecated due to KNX update)
 
 
 ## Future improvements:
