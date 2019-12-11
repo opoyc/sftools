@@ -16,7 +16,21 @@ Depends:
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-Imports: tidyverse, janitor, dplyr, readr, stringr, DescTools, dvmisc, purrr, pracma, lubridate, tibble, tidyr
+Imports: 
+    tidyverse, 
+    janitor, 
+    dplyr, 
+    readr, 
+    stringr, 
+    DescTools, 
+    dvmisc, 
+    purrr, 
+    pracma, 
+    lubridate, 
+    tibble, 
+    tidyr, 
+    changepoint,
+    forecast
 Suggests: 
     knitr,
     rmarkdown

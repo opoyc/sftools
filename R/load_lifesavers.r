@@ -20,7 +20,7 @@ load_lifesavers <- function(lifesavers_path){
     mutate(words_length=str_count(loc, pattern = "[A-Z]")) %>%
     filter(words_length==2, str_detect(loc, pattern = "001")) %>%
     mutate(loc2=str_extract(string = loc, pattern = "[A-Z]{2}")
-           , key=paste0(loc2, "-", gmid)
+           , key=paste0(loc2, ": ", gmid)
            , lsd=ifelse(lsd==T, "Yes", "No"))
     message("lifesavers (tidy version) have been exported to the global env.")
 }

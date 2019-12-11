@@ -16,7 +16,7 @@ load_gbu <- function(gbu_path){
     load(gbu_path)
     gbu <<- GBU %>%
         as_tibble() %>%
-        mutate(key=paste0(str_sub(Market.Code, start = 1, end = 2), "-", GMID.Code)) %>%
+        mutate(key=paste0(str_sub(Market.Code, start = 1, end = 2), ": ", GMID.Code)) %>%
         dplyr::select(key, gmid=GMID.Code, gbu=GBU) %>%
         unique() %>%
         filter(gbu!="")

@@ -28,7 +28,7 @@
 #' \dontrun{
 #' harvest_reg()
 #' }
-harvest_reg2 <- function(reg_list_path, reg_values_path, dir_path){
+harvest_reg <- function(reg_list_path, reg_values_path, dir_path){
 
   # Attaching regressors files to be updated -----------------------------------
 
