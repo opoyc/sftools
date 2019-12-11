@@ -1,4 +1,9 @@
-# `sftools`: Statistical Forecasting team's tools
+# `sftools (0.1.3.2)`: Statistical Forecasting team's tools
+
+## Installation:
+
+`remotes::install_github("opoyc/sftools")`
+`devtools::install_github("opoyc/sftools")`
 
 This package is meant to gather the functions we commonly use, automate collaboration tasks and data analysis workflows.
 
@@ -11,7 +16,7 @@ This package is meant to gather the functions we commonly use, automate collabor
 1. Have a uniform syntaxis to name objects and arguments and outputs.
 
 
-## Functions 
+## Functions:
 
 1. Statistical
   1. Adjusted Coefficient of Variance `sftools::acov()`
@@ -31,6 +36,6 @@ This package is meant to gather the functions we commonly use, automate collabor
   1. Gather teams' regressors `sftools::harvest_reg()` (soft deprecated due to KNX update)
 
 
-## Future improvements
+## Future improvements:
 
 1. Pipeline for KNX's monthly and quaterly cycle based on drake
