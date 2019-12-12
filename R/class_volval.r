@@ -12,7 +12,7 @@
 class_volval <- function(series){
     df <- data.frame(index=1:length(series), series)
     df <- df[order(df[,"series"], decreasing = T),]
-    df$cumsum <- cumsum(df$series)/sum(df$series)
+    df$cumsum <- cumsum(df$series)/sum(df$series, na.rm = T)
     df$class <- ifelse(df$cumsum<=.8, "A", ifelse(df$cumsum>.8 & df$cumsum<=.95, "B", "C"))
     return(df[order(df$index),"class"])
 }
