@@ -9,16 +9,19 @@
 #' \dontrun{
 #' load_gbu()
 #' }
-load_gbu <- function(gbu_path){
-    if(missing(gbu_path)){
+load_gbu <- function(gbu_path, on_globalenv=F){
+    if (missing(gbu_path)) {
         gbu_path <- "//sinsdfs01/regional$/APJ-SC-HUB/SC.DATA/DATA/Active/Specific.GBU.Rdata"
     }
-    load(gbu_path)
-    gbu <<- GBU %>%
-        as_tibble() %>%
-        mutate(key=paste0(str_sub(Market.Code, start = 1, end = 2), ": ", GMID.Code)) %>%
-        dplyr::select(key, gmid=GMID.Code, gbu=GBU) %>%
-        unique() %>%
-        filter(gbu!="")
-    message("gbu (tidy version) have been exported to the global env.")
+    local_env <- new.env()
+    load(gbu_path, envir = local_env)
+    names(local_env$GBU) <- c("market", "gmid", "activity", "activity_pfwd", "gbu")
+    local_env$GBU$key <- paste0(strtrim(local_env$GBU$market, 2), ": ", local_env$GBU$gmid)
+    gbu <- local_env$GBU[c("key", "gmid", "gbu")]
+    gbu <- gbu[gbu$key!="",]
+    if(on_globalenv==T){
+        gbu <<- gbu
+    } else {
+        return(gbu)
+    }
 }
