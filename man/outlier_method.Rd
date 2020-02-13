@@ -4,8 +4,14 @@
 \alias{outlier_method}
 \title{Performs outlier method to Kinaxis data}
 \usage{
-outlier_method(time_series, outlier_method, data_rule, mov_avg_n,
-  threshold, causal_factor = T)
+outlier_method(
+  time_series,
+  outlier_method,
+  data_rule,
+  mov_avg_n,
+  threshold,
+  causal_factor = T
+)
 }
 \arguments{
 \item{time_series}{ts object. The signal were to applied the outlier method.}

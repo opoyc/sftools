@@ -4,7 +4,7 @@
 \alias{load_gbu}
 \title{Get GBU data}
 \usage{
-load_gbu(gbu_path)
+load_gbu(gbu_path, on_globalenv = F)
 }
 \arguments{
 \item{gbu_path}{string. Has the default directory}

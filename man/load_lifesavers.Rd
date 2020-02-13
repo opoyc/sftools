@@ -4,7 +4,7 @@
 \alias{load_lifesavers}
 \title{Get life savers data}
 \usage{
-load_lifesavers(lifesavers_path)
+load_lifesavers(lifesavers_path, on_globalenv = FALSE)
 }
 \arguments{
 \item{lifesavers_path}{string. Has the default directory}
