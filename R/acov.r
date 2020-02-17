@@ -7,13 +7,13 @@
 #' @return numeric or ts object
 #' @export
 #' @author Obryan Poyser
-#' @import purrr
+#' @importFrom purrr possibly
 #'
 #' @examples
 #' \dontrun{
 #' acov(AirPassengers)
 #' }
-acov <- purrr::possibly(function(series){
+acov <- possibly(function(series){
     series <- series[!cumsum(series)==0]
     class <- class(series)
     length <- length(series)
