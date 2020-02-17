@@ -13,7 +13,7 @@
 #' }
 load_lifesavers <- function(lifesavers_path, on_globalenv=FALSE){
     if(missing(lifesavers_path)){
-        lifesavers_path <- "//sinsdfs01/regional$/APJ-SC-HUB/SC.DATA/DATA/Active/Specific.LSD.Rdata"
+        lifesavers_path <- "//E21flsbcnschub/BCN_SC_HUB/SC.DATA/DATA/Active/Specific.LSD.Rdata"
     }
     local_env <- new.env()
     load(lifesavers_path, envir = local_env)

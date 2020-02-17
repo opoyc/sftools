@@ -13,7 +13,7 @@
 #' }
 load_gbu <- function(gbu_path, on_globalenv=F){
     if (missing(gbu_path)) {
-        gbu_path <- "//sinsdfs01/regional$/APJ-SC-HUB/SC.DATA/DATA/Active/Specific.GBU.Rdata"
+        gbu_path <- "//E21flsbcnschub/BCN_SC_HUB/SC.DATA/DATA/Active/Specific.GBU.Rdata"
     }
     local_env <- new.env()
     load(gbu_path, envir = local_env)
