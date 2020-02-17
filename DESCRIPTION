@@ -14,7 +14,7 @@ Authors@R:
 Description: Set of function to automate Statistical Forecasting workflows
 License: GPL
 Depends: 
-    R(>= 3.5.1)
+    R(>= 3.5.0)
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr

@@ -9,7 +9,7 @@
 #' @param threshold Double. Defines the interval cut-off the extreme values. Between $0$ and $1$.
 #' @param causal_factor Logical. Defines if the series have regressors or not.
 #' @import pracma
-#' @import DescTools
+#' @importFrom DescTools Winsorize
 #' @import dvmisc
 #' @author Sze Gee
 #'
