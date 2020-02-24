@@ -1,6 +1,7 @@
 #' Get life savers data
 #'
 #' @param lifesavers_path string. Has the default directory
+#' @param on_globalenv logical. Defines is the dataframe should be loaded in the global environment or not.
 #'
 #' @return tibble
 #' @author Obryan Poyser

@@ -1,7 +1,10 @@
-#' Get GBU data
+#' Get Global Business Unit data
+#'
+#' Analytics' teams manages a database of Global Business Unit that links Location, GMID.
+#' There is a default directory located in ~Active/Specific.GBU.Rdata.
 #'
 #' @param gbu_path string. Has the default directory
-#'
+#' @param on_globalenv logical. Defines is the dataframe should be loaded in the global environment or not.
 #' @return tibble
 #' @author Obryan Poyser
 #'

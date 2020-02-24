@@ -4,12 +4,12 @@
 \alias{tscut}
 \title{Suggested starting date}
 \usage{
-tscut(series, freq = 12)
+tscut(time_series, freq = 12)
 }
 \arguments{
-\item{freq}{numeric. Set the frequency if the input is numeric, 12 by default.}
+\item{time_series}{ts or numeric}
 
-\item{x}{numeric or ts object.}
+\item{freq}{numeric. Set the frequency if the input is numeric, 12 by default.}
 }
 \value{
 ts object or numeric indexed as year 1

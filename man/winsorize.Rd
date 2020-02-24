@@ -4,10 +4,12 @@
 \alias{winsorize}
 \title{Winsorizing time series data}
 \usage{
-winsorize(time.series, frequency = 12)
+winsorize(time_series, frequency = 12)
 }
 \arguments{
-\item{time.series}{either a ts object or numeric vector}
+\item{time_series}{ts object.}
+
+\item{frequency}{numeric. frequency of the time series}
 }
 \value{
 ts object or numeric vector

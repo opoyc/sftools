@@ -2,7 +2,7 @@
 #'
 #' This function uses changing points in variance and mean to suggest a starting date.
 #'
-#' @param x numeric or ts object.
+#' @param time_series ts or numeric
 #' @param freq numeric. Set the frequency if the input is numeric, 12 by default.
 #'
 #' @import changepoint
@@ -14,7 +14,7 @@
 #' \dontrun{
 #' tscut(AirPassengers)
 #' }
-tscut <- function(series, freq=12) { # argument can be a vector or ts object
+tscut <- function(time_series, freq=12) { # argument can be a vector or ts object
   x_1 <- c(10, 100, 1000, 10000)
   y <- c(10, 4, 2, 1.5)
   fit <- lm(log(y) ~ log(x_1))
@@ -23,10 +23,10 @@ tscut <- function(series, freq=12) { # argument can be a vector or ts object
 
   # if it is a numeric vector convert is as monthly time series
 
-  if(is.ts(series)==FALSE){
-    x <- ts(series, freq=freq)
+  if(is.ts(time_series)==FALSE){
+    x <- ts(time_series, frequency=freq)
   } else {
-    x <- series
+    x <- time_series
   }
 
   if (length(x) != 0) {

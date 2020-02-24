@@ -8,6 +8,8 @@ load_lifesavers(lifesavers_path, on_globalenv = FALSE)
 }
 \arguments{
 \item{lifesavers_path}{string. Has the default directory}
+
+\item{on_globalenv}{logical. Defines is the dataframe should be loaded in the global environment or not.}
 }
 \value{
 tibble

@@ -8,9 +8,12 @@
 #' @param mov_avg_n Integer. Defines how many periods to consider to smooth the series.
 #' @param threshold Double. Defines the interval cut-off the extreme values. Between $0$ and $1$.
 #' @param causal_factor Logical. Defines if the series have regressors or not.
-#' @import pracma
+#'
+#' @importFrom pracma movavg
 #' @importFrom DescTools Winsorize
-#' @import dvmisc
+#' @importFrom stlplus stlplus
+#' @importFrom stats IQR is.ts lm mad median na.omit quantile sd stl ts
+#'
 #' @author Sze Gee
 #'
 #' @return ts object.
@@ -21,6 +24,7 @@
 #' outlier_method()
 #' }
 outlier_method <- function(time_series, outlier_method, data_rule, mov_avg_n, threshold, causal_factor = T) {
+  #import dvmisc
   if (outlier_method == "Standard Deviation") {
     if (data_rule == "Historical") { # same as kinaxis
 

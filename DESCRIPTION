@@ -32,7 +32,8 @@ Imports:
     tibble, 
     tidyr, 
     changepoint,
-    forecast
+    forecast,
+    stlplus
 Suggests: 
     knitr,
     rmarkdown

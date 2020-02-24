@@ -7,14 +7,22 @@
 acov(...)
 }
 \arguments{
+\item{...}{other arguments from base functions}
+
 \item{series}{numeric or ts object}
+
+\item{adjusted_cov}{logical. If TRUE, return adjusted cov, otherwise adjusted standard deviation}
 }
 \value{
 numeric or ts object
 }
 \description{
-This function calculates the adjusted coefficient of variation from the last 12 months
+This function calculates the adjusted coefficient of variation (COV) from the last 12 months
 of a time series.
+}
+\details{
+The COV measures the dispersion around the mean. By adjusted it means that the estimate of the dispersion
+is taking as input the error component from a Seasonal and Trend Decomposition by LOESS, and adjusting by the degrees of freedom.
 }
 \examples{
 \dontrun{
