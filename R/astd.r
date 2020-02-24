@@ -5,7 +5,6 @@
 #' @param series numeric or ts object
 #'
 #' @return numeric or ts object
-#' @export
 #' @author Obryan Poyser
 #' @import purrr
 #'
