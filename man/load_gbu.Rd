@@ -33,7 +33,7 @@ There is a default directory located in ~Active/Specific.GBU.Rdata.
 load_gbu()
 }
 \dontrun{
-load_gbu()
+load_gbu(on_globalenv = T)
 }
 }
 \author{

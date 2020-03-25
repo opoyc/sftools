@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' acov(AirPassengers)
+#' acov(series = AirPassengers, adjusted_cov = T)
 #' }
 acov <- possibly(function(series, adjusted_cov=T){
     series <- series[!cumsum(series)==0]

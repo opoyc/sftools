@@ -26,7 +26,7 @@ is taking as input the error component from a Seasonal and Trend Decomposition b
 }
 \examples{
 \dontrun{
-acov(AirPassengers)
+acov(series = AirPassengers, adjusted_cov = T)
 }
 }
 \author{

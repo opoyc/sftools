@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' load_gbu()
+#' load_gbu(on_globalenv = T)
 #' }
 load_gbu <- function(gbu_path, on_globalenv=F){
     if (missing(gbu_path)) {
