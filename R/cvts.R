@@ -5,8 +5,11 @@
 #' @param lag numeric. How many periods ahead to forecast.
 #'
 #' @return
+#'
 #' @importFrom purrr map_df
+#'
 #' @importFrom dplyr tibble
+#'
 #' @export
 #'
 #' @examples
