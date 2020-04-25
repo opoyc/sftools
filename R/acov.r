@@ -30,7 +30,7 @@ acov <- possibly(function(series, adjusted_cov=T){
     } else if(length(series)>24 & adjusted_cov!=T){
         resi <- stl(series, s.window="periodic", robust=T)$time.series[,3]
         (sd(resi[(length-11):length], na.rm = T)*sqrt((12-1)/12))
-    } else if(length(series)>24 & adjusted_cov==T){
+    } else if(length(series)<=24 & adjusted_cov==T){
         sd(series[(length-11):length], na.rm = T)/mean(series[(length-11):length], na.rm = T)
     } else {
         sd(series[(length-11):length], na.rm = T)
