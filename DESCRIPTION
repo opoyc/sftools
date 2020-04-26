@@ -33,7 +33,8 @@ Imports:
     tidyr, 
     changepoint,
     forecast,
-    stlplus
+    stlplus,
+    readxl
 Suggests: 
     knitr,
     rmarkdown
