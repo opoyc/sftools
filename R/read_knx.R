@@ -16,25 +16,19 @@
 #' @return
 #' @export
 #'
-read_knx <- function(file, cycle_mode = FALSE, task_config = FALSE){
-
-  if(cycle_mode == T){
-    date <- format(as.Date(task_config[["date"]][["current"]]), "%b - %Y")
-
-    dir_in <- paste0(paste0(task_config[["directory"]][c("root", "default_input", "market")], collapse = ""), date, "/")
-
-    if(dir.exists(dir_in)==F & task_config[["directory"]][["create_if_empty"]] == T){
-      dir.create(dir_in, recursive = T)
-    }
-  }
-
+read_knx <- function(file, conf = NULL){
   file_clean <- str_remove_all(file, pattern = ".*(\\\\|/)|\\..+$")
-  knx_table_func <- fnc_map[["int_function"]][which(fnc_map[["file_name"]]==file_clean)]
 
-  if(task_config==F){
-    getFromNamespace(knx_table_func, ns = "sftools")(file)
-  } else {
+  knx_table_func <- fnc_map[["int_function"]][which(fnc_map[["file_name"]] == file_clean)]
+
+  if (length(conf)>0) {
+    date <- format(as.Date(conf[["date"]][["current"]]), "%b - %Y")
+    dir_in <- paste0(paste0(conf[["directory"]][c("root", "default_input", "market")]
+                            , collapse = "")
+                     , date, "/")
     getFromNamespace(knx_table_func, ns = "sftools")(paste0(dir_in, file))
+  } else {
+    getFromNamespace(knx_table_func, ns = "sftools")(file)
   }
 }
 
