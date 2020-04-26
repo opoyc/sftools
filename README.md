@@ -1,8 +1,8 @@
-# `sftools (0.1.3.2)`: Statistical Forecasting team's tools
+# `sftools (0.1.3.5)`: Statistical Forecasting team's tools
 
 ## Installation:
 
-`remotes::install_github("opoyc/sftools")`
+`remotes::install_github("opoyc/sftools")`  
 `devtools::install_github("opoyc/sftools")`
 
 This package is meant to gather the functions we commonly use, automate collaboration tasks and data analysis workflows.
@@ -31,11 +31,17 @@ This package is meant to gather the functions we commonly use, automate collabor
 1. Load common databases
    1. Wrangled/tidy version of GBU db `sftools:::load_gbu()`
    1. Wrangled/tidy version of Life Savers db `sftools:::load_lifesavers()`
-1. Updating regressor table
-   1. Create a template were to fill the regressors `sftools::empty_reg()` (soft deprecated due to KNX update)
-   1. Gather teams' regressors `sftools::harvest_reg()` (soft deprecated due to KNX update)
-
-
-## Future improvements:
-
-1. Pipeline for KNX's monthly and quaterly cycle based on drake
+1. Kinaxis
+   1. `sftools::read_knx()` automatically detects KNX tables and performs tidy transformations. Current compability:
+      - [Forecast Item] - ABC XYZ Calculation
+      - [Forecast Item] Configuration (and life savings)
+      - [Forecast Item] Level Definition
+      - Active Regressor Summary
+      - Causal Factor Cleansing - Summary
+      - Edit Regressor Values
+      - Forecast Comparison
+      - Forecast Items
+      - Regressor Usage Summary
+      - Regressor Values
+      - Regressors
+      - Statistical Outliers Cleansing
