@@ -1,4 +1,4 @@
-# `sftools (0.1.3.5)`: Statistical Forecasting team's tools
+# `sftools (0.1.4)`: Statistical Forecasting team's tools
 
 ## Installation:
 
@@ -29,8 +29,7 @@ This package is meant to gather the functions we commonly use, automate collabor
    1. Filter the last 12 months `sftools:::sum_twelve()`
    1. Generate segmentation classes `sftools:::class_volval()`
 1. Load common databases
-   1. Wrangled/tidy version of GBU db `sftools:::load_gbu()`
-   1. Wrangled/tidy version of Life Savers db `sftools:::load_lifesavers()`
+   1. Wrangled/tidy version of GBU and Life Savers data bases `sftools::load_db()`
 1. Kinaxis
    1. `sftools::read_knx()` automatically detects KNX tables and performs tidy transformations. Current compability:
       - [Forecast Item] - ABC XYZ Calculation

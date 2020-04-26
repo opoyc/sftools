@@ -1,6 +1,6 @@
 Package: sftools
 Title: Automate Statistical Forecasting's workflow
-Version: 0.1.3.5
+Version: 0.1.4
 Authors@R: 
     person(given = "Obryan", family = "Poyser",
            role = c("aut", "cre"),

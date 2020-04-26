@@ -8,6 +8,7 @@
 #' @return tibble
 #' @author Obryan Poyser
 #'
+#' @export
 #' @importFrom dplyr as_tibble
 #'
 #' @examples

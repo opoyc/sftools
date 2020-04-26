@@ -4,7 +4,7 @@
 \alias{read_knx}
 \title{Maps the file name and assigns its respective function}
 \usage{
-read_knx(file, cycle_mode = FALSE, task_config = FALSE)
+read_knx(file, conf = NULL)
 }
 \arguments{
 \item{file}{string. File path to the table extracted from KNX.}

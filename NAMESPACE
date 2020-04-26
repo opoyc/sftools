@@ -2,6 +2,7 @@
 
 export(acov)
 export(cvts)
+export(load_db)
 export(outlier_method)
 export(read_knx)
 export(tscut)
@@ -33,3 +34,4 @@ importFrom(stats,setNames)
 importFrom(stats,stl)
 importFrom(stats,ts)
 importFrom(stlplus,stlplus)
+importFrom(utils,getFromNamespace)
