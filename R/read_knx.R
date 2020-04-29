@@ -101,7 +101,7 @@ read_fcst_conf <- function(file){
 #' @keywords internal
 #' @noRd
 read_lev_def <- function(file){
-  read_excel(path = file, skip = 1, col_names = level_def_lab)
+  read_excel(path = file, skip = 2, col_names = level_def_lab)
 }
 
 #' Reading Active Regressor Summary helper
