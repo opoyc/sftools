@@ -241,11 +241,10 @@ segmentation_lab <- c("forecast_item", "abc", "abc_volume", "abc_revenue", "xyz"
                       , "total_revenue_cum", "cov")
 
 
-level_def_lab <- c("gmid", "descr", "local_descr", "customer"
-                   , "prod_family", "site", "part_market", "gmid_site"
-                   , "gmid_2", "gmid_region", "market_gmid_local_descr"
-                   , "gmid_customer_channel", "fcst_item_editable", "fcst_item_calculated"
-                   , "fcst_item_current")
+level_def_lab <- c("gmid", "desc", "local_desc", "customer", "prod_family", "site", "part_market","gmid_site"
+  ,"gmid_2","gmid_region","market_gmid_local_desc","market_prov_gmid_local_desc"
+  ,"market_prov_local_bu_gmid_local_desc","gmid_customer_channel","fcst_item_editable"
+  ,"fcst_item_calculated","fcst_item_current")
 
 act_reg_summ_lab <- c("fcst_item", "item_category", "fcst_model", "reg_name", "lag", "col_x6"
                       , "estimate", "p_value", "standard_error", "t_stat")
