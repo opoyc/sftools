@@ -44,3 +44,4 @@ This package is meant to gather the functions we commonly use, automate collabor
       - Regressor Values
       - Regressors
       - Statistical Outliers Cleansing
+      - Demand Waterfall
