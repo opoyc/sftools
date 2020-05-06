@@ -17,7 +17,7 @@
 #' @export
 #'
 read_knx <- function(file, conf = NULL){
-  file_clean <- str_remove_all(file, pattern = ".*(\\\\|/)|\\..+$")
+  file_clean <- str_remove_all(file, pattern = ".*(////|/)|//..+$|_[A-Z]+(?=\\.)|\\..*$")
 
   knx_table_func <- fnc_map[["int_function"]][which(fnc_map[["file_name"]] == file_clean)]
 
@@ -48,7 +48,8 @@ fnc_map <- tibble::tribble(
                 "Regressor Usage Summary",      "read_reg_usage_summ",
                        "Regressor Values",          "read_reg_values",
                              "Regressors",          "read_regressors",
-         "Statistical Outliers Cleansing",  "read_stat_outlier_clean"
+         "Statistical Outliers Cleansing",  "read_stat_outlier_clean",
+                  "WID  Demand WaterFall",    "read_demand_waterfall"
   )
 
 
@@ -212,6 +213,25 @@ read_stat_outlier_clean <- function(file){
   })
 }
 
+
+#' Reading Demand Waterfall helper
+#'
+#' @param file string. File name
+#'
+#' @return data.frame
+#' @keywords internal
+#'
+#' @noRd
+read_demand_waterfall <- function(file){
+  read_excel(file, skip = 2) %>%
+    janitor::clean_names() %>%
+    setNames(nm = rename_knx(names(.))) %>%
+    select(-past) %>%
+    rename("fcst_item" = 1) %>%
+    filter(!str_detect(fcst_item, "TOTAL"))
+}
+
+
 # Column names ------------------------------------------------------------
 
 fcst_conf_lab <- c("abc", "xyz", "total_buckets", "fcst_item", "baseline"
@@ -254,7 +274,7 @@ rename_cols <- c("x01_01_"="jan_20", "x02_01_"="feb_20", "x03_01_"="mar_20"
                  , "x07_01_"="jul_20", "x08_01_"="aug_20", "x09_01_"="sep_20"
                  , "x10_01_"="oct_20", "x11_01_"="nov_20", "x12_01_"="dec_20"
                  , "x2"="fcst_type", "reference_plan_1_unconstrained_forecast"="unc_fcst"
-                 , "bb_statistical"="stat_fcst")
+                 , "bb_statistical"="stat_fcst", "forecast_item"="fcst_item")
 
 fcst_reg_items_lab <- c("select", "col_x2", "fcst_item", "col_x4", "fcst_category", "col_x6"
                         , "reg_total", "reg_active"
