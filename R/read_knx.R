@@ -16,20 +16,12 @@
 #' @return
 #' @export
 #'
-read_knx <- function(file, conf = NULL){
+read_knx <- function(file){
   file_clean <- str_remove_all(file, pattern = ".*(////|/)|//..+$|_[A-Z]+(?=\\.)|\\..*$")
 
   knx_table_func <- fnc_map[["int_function"]][which(fnc_map[["file_name"]] == file_clean)]
 
-  if (length(conf)>0) {
-    date <- format(as.Date(conf[["date"]][["current"]]), "%b - %Y")
-    dir_in <- paste0(paste0(conf[["directory"]][c("root", "default_input", "market")]
-                            , collapse = "")
-                     , date, "/")
-    getFromNamespace(knx_table_func, ns = "sftools")(paste0(dir_in, file))
-  } else {
-    getFromNamespace(knx_table_func, ns = "sftools")(file)
-  }
+  getFromNamespace(knx_table_func, ns = "sftools")(file)
 }
 
 # Function mapping --------------------------------------------------------
