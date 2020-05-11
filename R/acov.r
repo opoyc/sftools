@@ -11,28 +11,50 @@
 #' @return numeric or ts object
 #' @export
 #' @author Obryan Poyser
-#' @importFrom purrr possibly
+# @importFrom purrr possibly
 #'
 #' @examples
 #' \dontrun{
 #' acov(series = AirPassengers, adjusted_cov = T)
 #' }
-acov <- possibly(function(series, adjusted_cov=T){
-    series <- series[!cumsum(series)==0]
+acov <- function(series, adjusted_cov=T){
+
+    series <- series[!cumsum(series)==0] # eliminate leading zeros
     class <- class(series)
     length <- length(series)
-    if(class=="numeric"){
+
+    if(class=="numeric"){ # convert to ts freq=12 to be decomposed.
         series <- ts(series, start = c(1,1), frequency = 12)
     }
+
     if(length(series)>24 & adjusted_cov==T){
         resi <- stl(series, s.window="periodic", robust=T)$time.series[,3]
-        (sd(resi[(length-11):length], na.rm = T)*sqrt((12-1)/12))/(mean(series[(length-11):length], na.rm = T))
+        sd <- (sd(resi[(length-11):length], na.rm = T)*sqrt((12-1)/12))
+        mean <- (mean(series[(length-11):length], na.rm = T))
+
+        if(mean==0){
+          message("Zero-mean vector, the adjusted covariance cannot be calculated. Please check the data for the last 12 months.")
+          return(NA)
+        } else {
+          return(sd/mean)
+        }
     } else if(length(series)>24 & adjusted_cov!=T){
+
         resi <- stl(series, s.window="periodic", robust=T)$time.series[,3]
         (sd(resi[(length-11):length], na.rm = T)*sqrt((12-1)/12))
+
     } else if(length(series)<=24 & adjusted_cov==T){
-        sd(series[(length-11):length], na.rm = T)/mean(series[(length-11):length], na.rm = T)
+
+        sd <- sd(series, na.rm = T)
+        mean <- mean(series, na.rm = T)
+
+        if(mean==0){
+          message("Zero-mean vector, the adjusted covariance cannot be calculated. Please check the data for the last 12 months.")
+          return(NA)
+        } else {
+            return(sd/mean)
+        }
     } else {
         sd(series[(length-11):length], na.rm = T)
     }
-}, otherwise = NA)
+}
