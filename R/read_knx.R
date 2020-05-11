@@ -3,8 +3,6 @@
 #' Maps the file name and assigns its respective function
 #'
 #' @param file string. File path to the table extracted from KNX.
-#' @param cycle_mode logical. if the function is used in the regular monthly cycle.
-#' @param task_config logical. Configuration used for the monthly cycle.
 #'
 #' @importFrom readxl read_excel
 #' @importFrom janitor clean_names
