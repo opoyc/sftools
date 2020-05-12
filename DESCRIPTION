@@ -1,17 +1,17 @@
 Package: sftools
-Title: Automate Statistical Forecasting's workflow
+Title: Automate Statistical Forecasting's workflows
 Version: 0.1.4
 Authors@R: 
     person(given = "Obryan", family = "Poyser",
            role = c("aut", "cre"),
            email = "obryan.poyser@sanofi.com")
     person(given = "Sze", family = "Gee",
-           role = c("cre"),
+           role = c("aut"),
            email = "sze.gee@sanofi.com")
     person(given = "Arnau", family = "Muns",
-           role = c("cre"),
+           role = c("aut"),
            email = "arnau.muns@sanofi.com")
-Description: Set of function to automate Statistical Forecasting workflows
+Description: Compendium of function to automate Statistical Forecasting workflows
 License: GPL
 Depends: 
     R(>= 3.5.0)
@@ -19,7 +19,7 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 Imports: 
-    tidyverse, 
+    dplyr, 
     janitor, 
     dplyr, 
     readr, 
