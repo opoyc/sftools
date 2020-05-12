@@ -1,4 +1,6 @@
-# `sftools (0.1.4)`: Statistical Forecasting team's tools
+# Statistical Forecasting team's tools
+
+## Last version: `sftools (0.1.4)`
 
 ## Installation:
 
@@ -50,3 +52,25 @@ This package is meant to gather the functions we commonly use, automate collabor
       - Regressors
       - Statistical Outliers Cleansing
       - Demand Waterfall
+
+## Known problems
+
+The package have several depedencies, if you face a problem installing it please update them using:
+
+```{r}
+suppressMessages(
+  {
+    packages = c('tidyverse', 'janitor', 'dplyr', 'readr', 'stringr', 'DescTools', 'dvmisc', 'purrr', 'pracma', 'lubridate', 'tibble', 'tidyr', 'changepoint', 'forecast', 'stlplus', 'readxl')
+    check_packages <- lapply(
+      packages,
+      FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+          install.packages(x, dependencies = TRUE)
+          library(x, character.only = TRUE)
+        }
+      }
+    )
+    #source: https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/
+  }
+)
+```
