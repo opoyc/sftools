@@ -2,9 +2,9 @@
 
 ## Installation:
 
-### From Local SNF shared folder
+### From SNF shared folder
 
-`install.packages("//E21flsbcnschub/BCN_SC_HUB/3 - Forecast/9 - Innovation Incubator/Packages/sftools ", repos = NULL, type = "source")`
+`install.packages("//E21flsbcnschub/BCN_SC_HUB/3 - Forecast/9 - Innovation Incubator/Packages/sftools", repos = NULL, type = "source")`
 
 ### Remote
 `remotes::install_github("opoyc/sftools")`  
