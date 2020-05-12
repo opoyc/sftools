@@ -3,6 +3,5 @@ inst/doc
 *.Rhistory
 drake/
 *.drake/
-*.Rproj
 .RData
 .Ruserdata
