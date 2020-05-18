@@ -45,12 +45,12 @@ acov <- function(series, adjusted_cov=T){
 
     } else if(length(series)<=24 & adjusted_cov==T){
 
-        sd <- sd(series, na.rm = T)
-        mean <- mean(series, na.rm = T)
+        sd <- sd(series[(length-11):length], na.rm = T)
+        mean <- mean(series[(length-11):length], na.rm = T)
 
         if(mean==0){
-          message("Zero-mean vector, the adjusted covariance cannot be calculated. Please check the data for the last 12 months.")
-          return(NA)
+            message("Zero-mean vector, the adjusted covariance cannot be calculated. Please check the data for the last 12 months.")
+            return(NA)
         } else {
             return(sd/mean)
         }
