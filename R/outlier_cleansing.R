@@ -1,10 +1,29 @@
-library(pracma)
-library(DescTools)
-library(dvmisc)
-
-Lag = 4
-
-
+#' Apply outlier detection method
+#
+#'
+#' @param time_series ts object. The signal were to applied the outlier method.
+#' @param outlier_method String. Defines the type of outlier method to be applied.
+#' Options: *Standard Deviation*, *Iglewicz Hoaglin Method*, *Winsorizing* and *IQR*.
+#' @param data_rule String. Defines the classification of the data according to the number of observations.
+#' Options: *Historical*, *Moving Average Error* and *Rstl Error*.
+#' @param mov_avg_n Integer. Defines how many periods to consider to smooth the series.
+#' @param threshold_val Double. Defines the interval cut-off the extreme values. Between $0$ and $1$.
+#' @param causal_factor Logical. Defines if the series have regressors or not.
+#' @param lag Double. Defines the number of lags to be used for moving average
+#' @import pracma
+#' @importFrom DescTools Winsorize
+#' @importFrom stats sd ts quantile IQR median mad stl
+#' @importFrom stlplus stlplus
+#' @import dvmisc
+#' @author Sze Gee
+#'
+#' @return ts object.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' outlier_cleansing()
+#' }
 outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n, threshold_val, causal_factor = T, lag = 4){
 
   if(class(time_series)!="ts"){
@@ -66,8 +85,8 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
       rstl = stlplus(time_series,s.window = "periodic",n_p = 12)
       resi = rstl$data[,"remainder"]
 
-      avg = mean(resi[!(is_na(resi))])
-      s_d = sd(resi[!(is_na(resi))])
+      avg = mean(resi[!(is.na(resi))])
+      s_d = sd(resi[!(is.na(resi))])
       resi_new = resi
       resi_new[resi_new<   (avg-threshold_val * sd( resi)) ] = (avg-threshold_val * s_d) # lower threshold
       resi_new[resi_new>   (avg+threshold_val * sd( resi)) ] = (avg+threshold_val * s_d) # upper threshold
@@ -75,7 +94,7 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
       adjustment =resi_new -resi
       new_ts = time_series + adjustment
 
-      if(sum(new_ts[!is_na(new_ts)]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
+      if(sum(new_ts[!is.na(new_ts)]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
       new_ts = pmax(0,new_ts)                       # Coerce negative values to zero
 
       return(list(new_ts = new_ts,
@@ -167,8 +186,8 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
 
       resi_new = resi
 
-      dist_lower =  - threshold_val*(mad(resi[!is_na(resi)],constant = 1)/0.6745)
-      dist_upper =    threshold_val*(mad(resi[!is_na(resi)],constant = 1)/0.6745)
+      dist_lower =  - threshold_val*(mad(resi[!is.na(resi)],constant = 1)/0.6745)
+      dist_upper =    threshold_val*(mad(resi[!is.na(resi)],constant = 1)/0.6745)
 
       resi_new[resi_new< dist_lower ] = dist_lower  #lower threshold
       resi_new[resi_new> dist_upper ] = dist_upper  #upper threshold
@@ -176,7 +195,7 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
       adjustment =resi_new -resi
       new_ts = time_series + adjustment
 
-      if(sum(new_ts[!is_na(new_ts)]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
+      if(sum(new_ts[!is.na(new_ts)]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
       new_ts = pmax(0,new_ts)                       # Coerce negative values to zero
 
       lower = time_series - rstl$data[,"remainder"] + dist_lower
@@ -206,7 +225,7 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
       adjustment =resi_new -resi
       new_ts = time_series + adjustment
 
-      if(sum(new_ts[!is_na(new_ts)]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
+      if(sum(new_ts[!is.na(new_ts)]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
       new_ts = pmax(0,new_ts)                       # Coerce negative values to zero
 
       lower = time_series - rstl$time_series[,3] + dist_lower
@@ -283,7 +302,7 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
         adjustment =resi_new -resi
         new_ts = time_series + adjustment
 
-        if(sum(new_ts[!(is_na(new_ts))]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
+        if(sum(new_ts[!(is.na(new_ts))]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
         new_ts = pmax(0,new_ts)                       # Coerce negative values to zero
 
         lower = time_series - rstl$data[,"remainder"] + min(win_resi, na.rm = T)
@@ -329,7 +348,7 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
       adjustment =resi_new -resi
       new_ts = time_series + adjustment
 
-      if(sum(new_ts[!(is_na(new_ts))]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
+      if(sum(new_ts[!(is.na(new_ts))]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
       new_ts = pmax(0,new_ts)                       # Coerce negative values to zero
 
       lower = time_series - rstl$time_series[,3] + min(win_resi,na.rm = T)

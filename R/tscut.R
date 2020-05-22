@@ -7,6 +7,7 @@
 #'
 #' @import changepoint
 #' @import forecast
+#' @importFrom stats is.ts ts lm
 #' @return ts object or numeric indexed as year 1
 #' @export
 #'

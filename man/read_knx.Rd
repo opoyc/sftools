@@ -4,14 +4,10 @@
 \alias{read_knx}
 \title{Maps the file name and assigns its respective function}
 \usage{
-read_knx(file, conf = NULL)
+read_knx(file)
 }
 \arguments{
 \item{file}{string. File path to the table extracted from KNX.}
-
-\item{cycle_mode}{logical. if the function is used in the regular monthly cycle.}
-
-\item{task_config}{logical. Configuration used for the monthly cycle.}
 }
 \value{
 

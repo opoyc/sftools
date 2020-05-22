@@ -11,7 +11,7 @@
 #' @return numeric or ts object
 #' @export
 #' @author Obryan Poyser
-# @importFrom purrr possibly
+#' @importFrom stats stl
 #'
 #' @examples
 #' \dontrun{

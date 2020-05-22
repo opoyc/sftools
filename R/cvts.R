@@ -7,12 +7,14 @@
 #' @return
 #'
 #' @importFrom purrr map_df
-#'
 #' @importFrom dplyr tibble
 #'
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' cvts()
+#' }
 cvts <- function(ts_data, cv_size, lag){
   # define starting and ending train size
   initial_train <- (nrow(ts_data)-cv_size-lag+1)

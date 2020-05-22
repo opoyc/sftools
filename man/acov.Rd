@@ -4,14 +4,14 @@
 \alias{acov}
 \title{Adjusted Coefficient of Variation}
 \usage{
-acov(...)
+acov(series, adjusted_cov = T)
 }
 \arguments{
-\item{...}{other arguments from base functions}
-
 \item{series}{numeric or ts object}
 
 \item{adjusted_cov}{logical. If TRUE, return adjusted cov, otherwise adjusted standard deviation}
+
+\item{...}{other arguments from base functions}
 }
 \value{
 numeric or ts object

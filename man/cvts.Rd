@@ -19,3 +19,8 @@ cvts(ts_data, cv_size, lag)
 \description{
 Cross-validation for time series data
 }
+\examples{
+\dontrun{
+cvts()
+}
+}
