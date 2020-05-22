@@ -108,7 +108,7 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
     if(data_rule == "Rstl Error" & causal_factor == F){                          # use stl for ts with causal factor
 
       rstl = stl(time_series,s.window = "periodic",robust = T)
-      resi = rstl$time_series[,3]
+      resi = rstl[["time.series"]][, 3]
 
       avg = mean(resi)
       s_d = sd(resi)
@@ -125,8 +125,8 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
       return(list(new_ts = new_ts,
                   method = "Standard Deviation",
                   data_rule = "Rstl Error",
-                  upper_threshold = (time_series-  rstl$time_series[,3]+ threshold_val * s_d) ,
-                  lower_threshold = (time_series-  rstl$time_series[,3]- threshold_val * s_d))
+                  upper_threshold = (time_series-  rstl[["time.series"]][, 3]+ threshold_val * s_d) ,
+                  lower_threshold = (time_series-  rstl[["time.series"]][, 3]- threshold_val * s_d))
       )
     }
 
@@ -212,7 +212,7 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
     if(data_rule == "Rstl Error" & causal_factor == F){
 
       rstl = stl(time_series,s.window = "periodic",robust = T)
-      resi = rstl$time_series[,3]
+      resi = rstl[["time.series"]][, 3]
 
       resi_new = resi
 
@@ -228,8 +228,8 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
       if(sum(new_ts[!is.na(new_ts)]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
       new_ts = pmax(0,new_ts)                       # Coerce negative values to zero
 
-      lower = time_series - rstl$time_series[,3] + dist_lower
-      upper = time_series - rstl$time_series[,3] + dist_upper
+      lower = time_series - rstl[["time.series"]][, 3] + dist_lower
+      upper = time_series - rstl[["time.series"]][, 3] + dist_upper
 
       return(list(new_ts = new_ts,
                   method = "Iglewicz Hoaglin Method",
@@ -337,7 +337,7 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
     if(data_rule == "Rstl Error" & causal_factor == F){
 
       rstl = stl(time_series, s.window = "periodic", robust = T)
-      resi = rstl$time_series[,3]
+      resi = rstl[["time.series"]][, 3]
 
       resi_new = resi
       win_resi = Winsorize(resi, probs=c(threshold_val, 1 - threshold_val),na.rm = T )
@@ -351,8 +351,8 @@ outlier_cleansing = function(time_series , outlier_method, data_rule , mov_avg_n
       if(sum(new_ts[!(is.na(new_ts))]) == 0){new_ts =time_series }    # if outlier method changes all values to zero, revert back to original ts
       new_ts = pmax(0,new_ts)                       # Coerce negative values to zero
 
-      lower = time_series - rstl$time_series[,3] + min(win_resi,na.rm = T)
-      upper = time_series - rstl$time_series[,3] + max(win_resi,na.rm = T)
+      lower = time_series - rstl[["time.series"]][, 3] + min(win_resi,na.rm = T)
+      upper = time_series - rstl[["time.series"]][, 3] + max(win_resi,na.rm = T)
 
       return(list(new_ts = new_ts,
                   method = "Winsorizing",
