@@ -15,7 +15,7 @@
 #' @export
 #'
 read_knx <- function(file){
-  file_clean <- str_remove_all(file, pattern = ".*(////|/)|//..+$|_[A-Z]+(?=\\.)|\\..*$")
+  file_clean <- str_remove_all(file, pattern = ".*(////|/)|//..+$|_[A-Z]+(?=\\.)|(_[A-Z0-9]+)?\\..*$")
 
   knx_table_func <- fnc_map[["int_function"]][which(fnc_map[["file_name"]] == file_clean)]
 
