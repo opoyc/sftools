@@ -134,6 +134,21 @@ read_edit_reg_values <- function(file){
     mutate(reg_date = as.Date(reg_date))
 }
 
+#' Reading Regressor Values helper
+#'
+#' @param file string. File name
+#'
+#' @return data.frame
+#' @keywords internal
+#' @noRd
+read_reg_values <- function(file){
+  read_excel(file) %>%
+    rename(reg_name = 1, reg_category = 2) %>%
+    janitor::clean_names() %>%
+    setNames(nm = str_replace_all(names(.), rename_cols))
+}
+
+
 #' Reading Forecast comparison helper
 #'
 #' @param file string. File name
