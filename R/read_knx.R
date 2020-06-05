@@ -175,7 +175,13 @@ read_fcst_comp <- function(file){
 #' @keywords internal
 #' @noRd
 read_fcst_reg_item <- function(file){
-  read_excel(path = file, skip = 3, col_names = fcst_reg_items_lab)
+  tmp <- read_excel(path = file, skip = 2)
+
+  if(ncol(tmp)==26){
+    tmp %>% setNames(nm = fcst_reg_items_lab_v1)
+  } else {
+    tmp %>% setNames(nm = fcst_reg_items_lab_v2)
+  }
 }
 
 #' Reading Regressor Usage Summary helper
@@ -281,7 +287,7 @@ rename_cols <- c("x01_01_"="jan_20", "x02_01_"="feb_20", "x03_01_"="mar_20"
                  , "x2"="fcst_type", "reference_plan_1_unconstrained_forecast"="unc_fcst"
                  , "bb_statistical"="stat_fcst", "forecast_item"="fcst_item")
 
-fcst_reg_items_lab <- c("select", "col_x2", "fcst_item", "col_x4", "fcst_category", "col_x6"
+fcst_reg_items_lab_v1 <- c("select", "col_x2", "fcst_item", "col_x4", "fcst_category", "col_x6"
                         , "reg_total", "reg_active"
                         , "weight_decay_factor", "elastic_net_weight"
                         , "elastic_net_regu", "arimax_constant", "arimax_diff"
@@ -289,6 +295,15 @@ fcst_reg_items_lab <- c("select", "col_x2", "fcst_item", "col_x4", "fcst_categor
                         , "param_model_constant", "fcst_model", "trend_decay_factor"
                         , "ac_conf_level", "col_x21", "actuals_category"
                         , "x_6", "history_window", "fcst_horizon", "seasonal_cycle")
+
+fcst_reg_items_lab_v2 <- c("select", "col_x2", "fcst_item", "col_x4", "fcst_category"
+                           , "unit_measure_fcst", "unit_measure_control_set", "col_x8", "reg_total"
+                           , "reg_active", "param_set", "weight_decay_factor", "elastic_net_weight"
+                           , "elastic_net_regu", "arimax_constant", "arimax_diff"
+                           , "col_x17", "skip_leading_zeros", "control_set", "model_param_set"
+                           , "param_model_constant", "fcst_model", "trend_decay_factor", "ac_conf_level"
+                           , "fit_measure", "calendar", "col_x27", "actuals_category", "col_x29"
+                           , "history_window", "fcst_horizon", "seasonal_cycle", "ma_adjust")
 
 reg_usage_summ_lab <- c("fcst_item", "reg_name", "process_rule", "lag")
 
