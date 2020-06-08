@@ -9,7 +9,7 @@
 #' @author Obryan Poyser
 #'
 #' @export
-#' @importFrom dplyr as_tibble
+#' @import dplyr
 #'
 #' @examples
 #' \dontrun{
