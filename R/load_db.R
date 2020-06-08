@@ -27,7 +27,9 @@ load_db <- function(db, path=TRUE, on_globalenv=FALSE){
     names(local_env[["GBU"]]) <- c("market", "gmid", "activity", "activity_pfwd", "gbu")
     local_env[["GBU"]][["key"]] <- paste0(strtrim(local_env[["GBU"]][["market"]], 2), ": ", local_env[["GBU"]][["gmid"]])
     tmp <- local_env[["GBU"]][c("key", "gbu")]
-    gbu <- as_tibble(tmp[nchar(tmp[["key"]])>5,])
+    gbu <- as_tibble(tmp[nchar(tmp[["key"]])>5,]) %>%
+      group_by(key) %>%  # GBU is not well maintained, aggregating by key.
+      summarise(gbu = paste0(gbu, collapse = ""))
 
     if(on_globalenv==T){
       gbu <<- gbu
