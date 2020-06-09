@@ -1,19 +1,36 @@
 # Statistical Forecasting team's tools
 
-## Last version: `sftools (0.1.4)`
+## Last version: `sftools (0.1.5)`
 
 ## Installation:
 
-### From SNF shared folder
-
-`install.packages("//E21flsbcnschub/BCN_SC_HUB/3 - Forecast/9 - Innovation Incubator/Packages/sftools", repos = NULL, type = "source")`
-
 ### Remote
+
+#### From Github
 
 `remotes::install_github("opoyc/sftools")`  
 `devtools::install_github("opoyc/sftools")`
 
-This package is meant to gather the functions we commonly use, automate collaboration tasks and data analysis workflows.
+#### From Gitlab
+
+```{r}
+install_sanofi_pkg <- function(){
+  choice <- menu(choices = c("kinapi", "sftools", "None"), title = "Which package would you like to install?")
+  if(choice == 1){
+    pkg <- "https://emea-aws-gitlab.sanofi.com:3001/statistical_forecasting/packages/kinapi.git"
+  } else if(choice == 2) {
+    pkg <- "https://emea-aws-gitlab.sanofi.com:3001/statistical_forecasting/packages/sftools.git"
+  } else if(choice == 3){
+    message("Bye!")
+  }
+  cred <- git2r::cred_user_pass(rstudioapi::askForPassword("Username"), rstudioapi::askForPassword("Password"))
+  devtools::install_git(pkg, credentials = cred)
+}
+```
+
+Then run:
+
+`install_sanofi_pkg()`
 
 ## Objectives:
 
@@ -61,7 +78,9 @@ The package have several depedencies, if you face a problem installing it please
 ```{r}
 suppressMessages(
   {
-    packages = c('tidyverse', 'janitor', 'dplyr', 'readr', 'stringr', 'DescTools', 'dvmisc', 'purrr', 'pracma', 'lubridate', 'tibble', 'tidyr', 'changepoint', 'forecast', 'stlplus', 'readxl')
+    packages = c('tidyverse', 'janitor', 'dplyr', 'readr', 'stringr', 'DescTools'
+    , 'dvmisc', 'purrr', 'pracma', 'lubridate', 'tibble', 'tidyr', 'changepoint'
+    , 'forecast', 'stlplus', 'readxl')
     check_packages <- lapply(
       packages,
       FUN = function(x) {
