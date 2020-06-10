@@ -96,9 +96,9 @@ read_fcst_conf <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function(x) read_xlsx(path = file, skip = 3)
+    read_knx_tmp <- function() read_xlsx(path = file, skip = 3)
   } else if(format == "tab") {
-    read_knx_tmp <- function(x) read_delim(file = file, delim = "\t", skip = 3) %>%
+    read_knx_tmp <- function() read_delim(file = file, delim = "\t", skip = 3) %>%
       mutate_if(is.character, .funs = ~str_trim(.x))
   }
 
@@ -106,6 +106,7 @@ read_fcst_conf <- function(file){
     tmp <- read_knx_tmp() %>%
       setNames(nm = fcst_conf_lab)
   })
+
   if(nrow(tmp)<=1){
     message("Table 'Forecast Configuration (or Life Savings)' have no records")
     return(tmp)
