@@ -4,7 +4,8 @@
 #'
 #' @param file string. File path to the table extracted from KNX.
 #'
-#' @importFrom readxl read_excel read_xlsx
+#' @importFrom readxl read_excel
+#' @importFrom readxl read_xlsx
 #' @importFrom readr read_delim
 #' @importFrom janitor clean_names
 #' @importFrom stats setNames
@@ -14,7 +15,6 @@
 #' @import stringr
 #' @return
 #' @export
-#'
 read_knx <- function(file){
   file_clean <- str_remove_all(file, pattern = ".*(////|/)|//..+$|_[A-Z]+(?=\\.)|(_[A-Z0-9]+)?\\..*$")
 
@@ -79,9 +79,11 @@ read_seg <- function(file){
   }
 
   suppressMessages({
-    read_knx_tmp() %>%
-      setNames(nm = segmentation_lab) %>%
-      mutate_if(is.character, .funs = ~str_squish(.x))
+    suppressWarnings({
+      read_knx_tmp() %>%
+        setNames(nm = segmentation_lab) %>%
+        mutate_if(is.character, .funs = ~str_squish(.x))
+    })
   })
 }
 
@@ -103,10 +105,15 @@ read_fcst_conf <- function(file){
       mutate_if(is.character, .funs = ~str_trim(.x))
   }
 
-  suppressMessages({ # hiding column renaming messages
-    tmp <- read_knx_tmp() %>%
-      setNames(nm = fcst_conf_lab)
-  })
+  suppressWarnings(
+    {
+      suppressMessages({ # hiding column renaming messages
+        tmp <- read_knx_tmp() %>%
+          setNames(nm = fcst_conf_lab)
+      })
+    }
+  )
+
 
   if(nrow(tmp)<=1){
     message("Table 'Forecast Configuration (or Life Savings)' have no records")
@@ -132,11 +139,12 @@ read_lev_def <- function(file){
     read_knx_tmp <- function() read_delim(file = file, delim = "\t", skip = 1)
   }
 
-  suppressMessages({
-    read_knx_tmp() %>%
-      setNames(nm = level_def_lab)
+  suppressWarnings({
+    suppressMessages({
+      read_knx_tmp() %>%
+        setNames(nm = level_def_lab)
+    })
   })
-
 }
 
 #' Reading Active Regressor Summary helper
@@ -156,10 +164,12 @@ read_act_reg_summ <- function(file){
     read_knx_tmp <- function() read_delim(file = file, delim = "\t", skip = 1)
   }
 
-  suppressMessages({
-    tmp <- read_knx_tmp() %>%
+  suppressWarnings({
+    suppressMessages({
+      tmp <- read_knx_tmp() %>%
       setNames(nm = act_reg_summ_lab)
-  })
+      })
+    })
 
   if(nrow(tmp)<=1){
     message("Table 'Active Regressor Summary' have no records")
@@ -185,10 +195,12 @@ read_edit_reg_values <- function(file){
     read_knx_tmp <- function() read_delim(file = file, delim = "\t")
   }
 
-  suppressMessages({
-    read_knx_tmp() %>%
-      rename(reg_name = 1, reg_category = 2, reg_date = 3, reg_value = 4) %>%
-      mutate(reg_date = as.Date(reg_date))
+  suppressWarnings({
+    suppressMessages({
+      read_knx_tmp() %>%
+        rename(reg_name = 1, reg_category = 2, reg_date = 3, reg_value = 4) %>%
+        mutate(reg_date = as.Date(reg_date))
+      })
     })
 }
 
@@ -209,12 +221,14 @@ read_reg_values <- function(file){
     read_knx_tmp <- function() read_delim(file = file, delim = "\t")
   }
 
-  suppressMessages({
-    read_knx_tmp() %>%
-      rename(reg_name = 1, reg_category = 2) %>%
-      clean_names() %>%
-      setNames(nm = rename_knx(names(.)))
-  })
+  suppressWarnings({
+    suppressMessages({
+      read_knx_tmp() %>%
+        rename(reg_name = 1, reg_category = 2) %>%
+        clean_names() %>%
+        setNames(nm = rename_knx(names(.)))
+      })
+    })
 }
 
 
@@ -235,13 +249,14 @@ read_fcst_comp <- function(file){
     read_knx_tmp <- function() read_delim(file, delim = "\t", skip = 2)
   }
 
+  suppressWarnings({
   suppressMessages({
     read_knx_tmp() %>%
       rename(fcst_item = 1, item_category = 2, actuals_category = 3
              , lifecycle = 4, series_type = 5, scenario = 6) %>%
       clean_names() %>% # janitor
       setNames(nm = rename_knx(names(.)))
-  })
+  })})
 }
 
 
@@ -262,7 +277,7 @@ read_fcst_reg_item <- function(file){
     read_knx_tmp <- function() read_delim(file = file, delim = "\t", skip = 2)
   }
 
-  tmp <- suppressMessages(read_knx_tmp())
+  tmp <- suppressMessages(suppressWarnings(read_knx_tmp()))
 
   if(ncol(tmp)==26){
     tmp %>% setNames(nm = fcst_reg_items_lab_v1)
@@ -287,9 +302,11 @@ read_reg_usage_summ <- function(file){
     read_knx_tmp <- function() read_delim(file = file, delim = "\t")
   }
 
-  suppressMessages({
-    read_knx_tmp() %>%
-      setNames(reg_usage_summ_lab)
+  suppressWarnings({
+    suppressMessages({
+      read_knx_tmp() %>%
+        setNames(reg_usage_summ_lab)
+      })
     })
 }
 
@@ -309,8 +326,12 @@ read_regressors <- function(file){
     read_knx_tmp <- function() read_delim(file = file, delim = "\t")
   }
 
-  read_knx_tmp() %>%
-    setNames(nm = c("select", "reg_name", "reg_category"))
+  suppressWarnings({
+    suppressMessages({
+      read_knx_tmp() %>%
+        setNames(nm = c("select", "reg_name", "reg_category"))
+      })
+    })
 }
 
 #' Reading Statistical Outlier Cleansing helper
@@ -333,12 +354,13 @@ read_stat_outlier_clean <- function(file){
   }
 
   suppressMessages({
-    read_knx_tmp() %>%
+    suppressWarnings({    read_knx_tmp() %>%
       rename(fcst_item = 1, fcst_category = 2, actuals_category = 3, outlier_conf = 4
              , outlier_summary = 5, series_type_1 = 6, series_type_2 = 7) %>%
       clean_names() %>% # janitor
       setNames(nm = rename_knx(names(.)))
-  })
+      })
+    })
 }
 
 #' Reading Causal Factor Cleansing helper
@@ -358,12 +380,17 @@ read_causal_factor_clean <- function(file){
     read_knx_tmp <- function() read_delim(file = file, delim = "\t", skip = 1)
   }
 
-  suppressMessages({
-    read_knx_tmp() %>%
-      rename(fcst_item = 1, causal_data_class_1 = 2, causal_data_class_2 = 3) %>%
-      clean_names() %>%
-      setNames(nm = rename_knx(names(.)))
-  })
+  suppressWarnings(
+    {
+      suppressMessages({
+        read_knx_tmp() %>%
+          rename(fcst_item = 1, causal_data_class_1 = 2, causal_data_class_2 = 3) %>%
+          clean_names() %>%
+          setNames(nm = rename_knx(names(.)))
+      })
+    }
+  )
+
 }
 
 #' Reading Demand Waterfall helper
@@ -384,15 +411,16 @@ read_demand_waterfall <- function(file){
     read_knx_tmp <- function() read_delim(file = file, delim = "\t", skip = 2)
   }
 
-  suppressMessages({
-    read_knx_tmp() %>%
-      lean_names() %>%
-      setNames(nm = rename_knx(names(.))) %>%
-      select(-"past") %>%
-      rename("fcst_item" = 1) %>%
-      filter(!str_detect(fcst_item, "TOTAL|<blank>"))
+  suppressWarnings({
+    suppressMessages({
+      read_knx_tmp() %>%
+        clean_names() %>%
+        setNames(nm = rename_knx(names(.))) %>%
+        select(-"past") %>%
+        rename("fcst_item" = 1) %>%
+        filter(!str_detect(fcst_item, "TOTAL|<blank>"))
+    })
   })
-
 }
 
 
