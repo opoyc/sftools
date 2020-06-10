@@ -233,8 +233,6 @@ read_fcst_comp <- function(file){
     clean_names() %>%
     setNames(nm = rename_knx(names(.))) %>%
     filter(is.na(fcst_item)==F)
-
-  message("here?")
 }
 
 
