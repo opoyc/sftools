@@ -4,7 +4,8 @@
 #'
 #' @param file string. File path to the table extracted from KNX.
 #'
-#' @importFrom readxl read_excel
+#' @importFrom readxl read_excel read_xlsx
+#' @importFrom readr read_delim
 #' @importFrom janitor clean_names
 #' @importFrom stats setNames
 #' @importFrom lubridate parse_date_time
@@ -72,7 +73,7 @@ read_seg <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function() read_excel(file, skip = 1)
+    read_knx_tmp <- function() read_xlsx(file, skip = 1)
   } else if(format == "tab") {
     read_knx_tmp <- function() read_delim(file = file, delim = "\t", skip = 1)
   }
@@ -179,7 +180,7 @@ read_edit_reg_values <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function() read_excel(path = file)
+    read_knx_tmp <- function() read_xlsx(path = file)
   } else if(format == "tab") {
     read_knx_tmp <- function() read_delim(file = file, delim = "\t")
   }
@@ -203,7 +204,7 @@ read_reg_values <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function() read_excel(path = file)
+    read_knx_tmp <- function() read_xlsx(path = file)
   } else if(format == "tab") {
     read_knx_tmp <- function() read_delim(file = file, delim = "\t")
   }
@@ -229,7 +230,7 @@ read_fcst_comp <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function() read_excel(path = file, skip = 2)
+    read_knx_tmp <- function() read_xlsx(path = file, skip = 2)
   } else if(format == "tab") {
     read_knx_tmp <- function() read_delim(file, delim = "\t", skip = 2)
   }
@@ -256,7 +257,7 @@ read_fcst_reg_item <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function() read_excel(path = file, skip = 2)
+    read_knx_tmp <- function() read_xlsx(path = file, skip = 2)
   } else if(format == "tab") {
     read_knx_tmp <- function() read_delim(file = file, delim = "\t", skip = 2)
   }
@@ -281,7 +282,7 @@ read_reg_usage_summ <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function() read_excel(path = file)
+    read_knx_tmp <- function() read_xlsx(path = file)
   } else if(format == "tab") {
     read_knx_tmp <- function() read_delim(file = file, delim = "\t")
   }
@@ -303,7 +304,7 @@ read_regressors <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function() read_excel(path = file)
+    read_knx_tmp <- function() read_xlsx(path = file)
   } else if(format == "tab") {
     read_knx_tmp <- function() read_delim(file = file, delim = "\t")
   }
@@ -326,7 +327,7 @@ read_stat_outlier_clean <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function() read_excel(path = file)
+    read_knx_tmp <- function() read_xlsx(path = file)
   } else if(format == "tab") {
     read_knx_tmp <- function() read_delim(file = file, delim = "\t")
   }
@@ -352,7 +353,7 @@ read_causal_factor_clean <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function() read_excel(path = file, skip = 1)
+    read_knx_tmp <- function() read_xlsx(path = file, skip = 1)
   } else if(format == "tab") {
     read_knx_tmp <- function() read_delim(file = file, delim = "\t", skip = 1)
   }
@@ -378,16 +379,16 @@ read_demand_waterfall <- function(file){
   format <- str_extract(file, "[A-Za-z]+$")
 
   if(format == "xlsx") {
-    read_knx_tmp <- function() read_excel(file, skip = 2)
+    read_knx_tmp <- function() read_xlsx(file, skip = 2)
   } else if(format == "tab") {
     read_knx_tmp <- function() read_delim(file = file, delim = "\t", skip = 2)
   }
 
   suppressMessages({
     read_knx_tmp() %>%
-      janitor::clean_names() %>%
+      lean_names() %>%
       setNames(nm = rename_knx(names(.))) %>%
-      select(-past) %>%
+      select(-"past") %>%
       rename("fcst_item" = 1) %>%
       filter(!str_detect(fcst_item, "TOTAL|<blank>"))
   })

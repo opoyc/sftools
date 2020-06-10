@@ -2,7 +2,7 @@
 % Please edit documentation in R/sum_twelve.R
 \name{sum_twelve}
 \alias{sum_twelve}
-\title{Series sum of the last 12 months}
+\title{Sums the last 12 observations}
 \usage{
 sum_twelve(...)
 }
@@ -13,7 +13,7 @@ sum_twelve(...)
 numeric
 }
 \description{
-Series sum of the last 12 months
+Sums the last 12 observations
 }
 \examples{
 \dontrun{
