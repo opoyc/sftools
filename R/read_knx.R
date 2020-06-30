@@ -134,7 +134,7 @@ read_lev_def <- function(file){
   }
 
   read_knx_tmp() %>%
-    setNames(nm = level_def_lab)
+    clean_names()
 }
 
 #' Reading Active Regressor Summary helper
