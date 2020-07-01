@@ -29,7 +29,7 @@ load_db <- function(db, path=TRUE, on_globalenv=FALSE){
     tmp <- local_env[["GBU"]][c("key", "gbu")]
     gbu <- as_tibble(tmp[nchar(tmp[["key"]])>5,]) %>%
       group_by(key) %>%  # GBU is not well maintained, aggregating by key.
-      summarise(gbu = paste0(gbu, collapse = ""))
+      summarise(gbu = paste0(unique(gbu), collapse = ""), .groups = "drop")
 
     if(on_globalenv==T){
       gbu <<- gbu
