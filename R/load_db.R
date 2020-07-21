@@ -15,7 +15,7 @@
 #' \dontrun{
 #' load_db(db = "GBU", on_globalenv = T)
 #' }
-load_db <- function(db, default_path=TRUE{
+load_db <- function(db, default_path=TRUE){
 
   tmp_env <- new.env()
 
