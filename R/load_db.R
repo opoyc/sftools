@@ -15,42 +15,44 @@
 #' \dontrun{
 #' load_db(db = "GBU", on_globalenv = T)
 #' }
-load_db <- function(db, path=TRUE, on_globalenv=FALSE){
+load_db <- function(db, default_path=TRUE{
 
-  local_env <- new.env()
+  tmp_env <- new.env()
 
   if(db == "GBU"){
-    if(path == TRUE){
+
+    if(default_path == TRUE){
       path <- "//E21flsbcnschub/BCN_SC_HUB/SC.DATA/DATA/Active/Specific.GBU.Rdata"
+    } else {
+      path <- default_path
     }
-    load(path, envir = local_env)
-    names(local_env[["GBU"]]) <- c("market", "gmid", "activity", "activity_pfwd", "gbu")
-    local_env[["GBU"]][["key"]] <- paste0(strtrim(local_env[["GBU"]][["market"]], 2), ": ", local_env[["GBU"]][["gmid"]])
-    tmp <- local_env[["GBU"]][c("key", "gbu")]
-    gbu <- as_tibble(tmp[nchar(tmp[["key"]])>5,]) %>%
+
+    load(path, envir = tmp_env)
+
+    as.list(tmp_env)[[1]] %>%
+      as_tibble() %>%
+      setNames(nm = c("market", "gmid", "activity", "activity_pfwd", "gbu")) %>%
+      filter(grepl("[0-9]{4,6}", gmid)) %>%
+      transmute(key = paste0(gsub(pattern = "[0-9]+", replacement = "", market), ": ", gmid)
+                , gbu) %>%
       group_by(key) %>%  # GBU is not well maintained, aggregating by key.
       summarise(gbu = paste0(unique(gbu), collapse = ""), .groups = "drop")
 
-    if(on_globalenv==T){
-      gbu <<- gbu
-    } else {
-      return(gbu)
-    }
-
   } else if(db == "LSD"){
-    if(path == TRUE){
-      path <- "//E21flsbcnschub/BCN_SC_HUB/SC.DATA/DATA/Active/Specific.LSD.Rdata"
-    }
-    load(path, envir = local_env)
-    names(local_env[["LSD"]]) <- c("market", "gmid", "status", "lsd")
-    local_env[["LSD"]][["key"]] <- paste0(strtrim(local_env[["LSD"]][["market"]], 2), ": ", local_env[["LSD"]][["gmid"]])
-    tmp <- local_env[["LSD"]][c("key", "lsd")]
-    lsd <- as_tibble(tmp[nchar(tmp[["key"]])>5,])
 
-    if(on_globalenv==T){
-      lsd <<- lsd
+    if(default_path == TRUE){
+      path <- "//E21flsbcnschub/BCN_SC_HUB/SC.DATA/DATA/Active/Specific.LSD.Rdata"
     } else {
-      return(lsd)
+      path <- default_path
     }
-  }
+
+    load(path, envir = tmp_env)
+
+    as.list(tmp_env)[[1]] %>%
+      as_tibble() %>%
+      setNames(nm = c("market", "gmid", "lsd")) %>%
+      filter(grepl("[0-9]{4,6}", gmid)) %>%
+      transmute(key = paste0(gsub(pattern = "[0-9]+", replacement = "", market), ": ", gmid)
+                , lsd)
+    }
 }
