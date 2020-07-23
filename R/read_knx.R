@@ -12,14 +12,12 @@
 #' @importFrom lubridate parse_date_time
 #' @importFrom utils getFromNamespace
 #' @import dplyr
+#' @import purrr
 #' @import stringr
 #' @return
 #' @export
 read_knx <- function(file){
-  file_clean <- str_remove_all(file, pattern = ".*(////|/)|//..+$|_[A-Z]+(?=\\.)|(_[A-Z0-9]+)?\\..*$")
-
-  knx_table_func <- fnc_map[["int_function"]][which(fnc_map[["file_name"]] == file_clean)]
-
+  knx_table_func <- fnc_map[["int_function"]][map_lgl(fnc_map[["regex"]], ~str_detect(string = file, pattern = .x))]
   suppressWarnings(
     suppressMessages(
       getFromNamespace(knx_table_func, ns = "sftools")(file)
@@ -30,22 +28,23 @@ read_knx <- function(file){
 # Function mapping --------------------------------------------------------
 
 fnc_map <- tibble::tribble(
-                                    ~file_name,                ~int_function,
-  "[Forecast Item] - ABC XYZ Calculation",                 "read_seg",
-          "[Forecast Item] Configuration",           "read_fcst_conf",
-       "[Forecast Item] Level Definition",             "read_lev_def",
-               "Active Regressor Summary",        "read_act_reg_summ",
-      "Causal Factor Cleansing - Summary", "read_causal_factor_clean",
-                  "Edit Regressor Values",     "read_edit_reg_values",
-                    "Forecast Comparison",           "read_fcst_comp",
-                         "Forecast Items",       "read_fcst_reg_item",
-                           "life savings",           "read_fcst_conf",
-                "Regressor Usage Summary",      "read_reg_usage_summ",
-                       "Regressor Values",          "read_reg_values",
-                             "Regressors",          "read_regressors",
-         "Statistical Outliers Cleansing",  "read_stat_outlier_clean",
-                  "WID  Demand WaterFall",    "read_demand_waterfall"
+                                                       ~regex,              ~int_function,
+  "\\[Forecast Item\\] - ABC XYZ Calculation(\\{\\})?(?=\\.)",                 "read_seg",
+          "\\[Forecast Item\\] Configuration(\\{\\})?(?=\\.)",           "read_fcst_conf",
+       "\\[Forecast Item\\] Level Definition(\\{\\})?(?=\\.)",             "read_lev_def",
+                   "Active Regressor Summary(\\{\\})?(?=\\.)",        "read_act_reg_summ",
+          "Causal Factor Cleansing - Summary(\\{\\})?(?=\\.)", "read_causal_factor_clean",
+                      "Edit Regressor Values(\\{\\})?(?=\\.)",     "read_edit_reg_values",
+                        "Forecast Comparison(\\{\\})?(?=\\.)",           "read_fcst_comp",
+                             "Forecast Items(\\{\\})?(?=\\.)",       "read_fcst_reg_item",
+                               "life savings(\\{\\})?(?=\\.)",           "read_fcst_conf",
+                    "Regressor Usage Summary(\\{\\})?(?=\\.)",      "read_reg_usage_summ",
+                           "Regressor Values(\\{\\})?(?=\\.)",          "read_reg_values",
+                                 "Regressors(\\{\\})?(?=\\.)",          "read_regressors",
+             "Statistical Outliers Cleansing(\\{\\})?(?=\\.)",  "read_stat_outlier_clean",
+                      "WID  Demand WaterFall(\\{\\})?(?=\\.)",    "read_demand_waterfall"
   )
+
 
 
 #' Renaming date in column names helper
@@ -228,11 +227,11 @@ read_fcst_comp <- function(file){
   }
 
   read_knx_tmp() %>%
-    rename(fcst_item = 1, item_category = 2, actuals_category = 3
+    rename(forecast_item = 1, item_category = 2, actuals_category = 3
            , lifecycle = 4, series_type = 5, scenario = 6) %>%
     clean_names() %>%
     setNames(nm = rename_knx(names(.))) %>%
-    filter(is.na(fcst_item)==F)
+    filter(is.na(forecast_item)==F)
 }
 
 
@@ -322,7 +321,7 @@ read_stat_outlier_clean <- function(file){
   }
 
   read_knx_tmp() %>%
-    rename(fcst_item = 1, fcst_category = 2, actuals_category = 3, outlier_conf = 4
+    rename(forecast_item = 1, fcst_category = 2, actuals_category = 3, outlier_conf = 4
            , outlier_summary = 5, series_type_1 = 6, series_type_2 = 7) %>%
     clean_names() %>% # janitor
     setNames(nm = rename_knx(names(.)))
@@ -346,10 +345,10 @@ read_causal_factor_clean <- function(file){
   }
 
   read_knx_tmp() %>%
-    rename(fcst_item = 1, causal_data_class_1 = 2, causal_data_class_2 = 3) %>%
+    rename(forecast_item = 1, causal_data_class_1 = 2, causal_data_class_2 = 3) %>%
     clean_names() %>%
     setNames(nm = rename_knx(names(.))) %>%
-    filter(is.na(fcst_item)==F, !str_detect(fcst_item, "TOTAL"))
+    filter(is.na(forecast_item)==F, !str_detect(forecast_item, "TOTAL"))
 
 }
 
@@ -375,46 +374,42 @@ read_demand_waterfall <- function(file){
     clean_names() %>%
     setNames(nm = rename_knx(names(.))) %>%
     select(-"past") %>%
-    rename("fcst_item" = 1) %>%
-    filter(!str_detect(fcst_item, "TOTAL|<blank>"))
+    rename("forecast_item" = 1) %>%
+    filter(!str_detect(forecast_item, "TOTAL|<blank>"))
 }
 
 
 # Column names ------------------------------------------------------------
 
-fcst_conf_lab <- c("abc", "xyz", "total_buckets", "fcst_item", "baseline"
-                   , "item_category", "unit_measure_fcst", "col_x8"
+fcst_conf_lab <- c("abc", "xyz", "total_buckets", "forecast_item", "local_description"
+                   , "baseline", "item_category", "unit_measure_fcst", "col_09"
                    , "unit_measure_control_set", "actuals_category", "item_usage_rule"
-                   , "item_status_update", "col_x13", "configured", "col_x15"
-                   , "lifecycle", "col_x17", "model_param_set", "skip_leading_zeros"
-                   , "holdout", "fcst_model", "trend_decay_factor"
-                   , "fit_measure", "model_constant_usage", "calendar", "col_x26"
-                   , "history_window", "fcst_horizon", "seasonal_cycle"
-                   , "ma_adjust", "conf_level", "col_x32", "best_fit_model_set"
-                   , "best_fit_holdout_period", "best_fit_fcst_lag", "col_x36", "arima_constant"
-                   , "arima_terms_ar", "arima_terms_ma", "arima_terms_diff", "col_x41", "ets_param_set"
-                   , "elastic_net_weight", "elastic_net_regu"
-                   , "arimax_constant", "arimax_diff", "ac_conf_level"
-                   , "ac_conf_level_apply", "col_x49", "hist_start_date", "hist_items_actuals"
-                   , "hist_from_other_items", "hist_from_count", "col_x54"
-                   , "hist_by_other_items", "col_x56", "adjust_start_date", "adjust_profile"
-                   , "adjust_quantity", "adjust_multiplier", "col_x61", "fcst_start_date", "fcst_stop_date"
-                   , "override_fcst_start_date", "override_fcst_stop_date", "outlier_type", "outlier_view"
-                   , "has_outliers", "outlier_data", "outlier_detection"
-                   , "outlier_threshold", "outlier_ma_window", "output_errors"
-                   , "output_charac")
+                   , "item_status_update", "col_14", "configured", "col_16", "lifecycle"
+                   , "col_18", "model_param_set", "skip_leading_zeros", "holdout", "fcst_model"
+                   , "trend_decay_factor", "fit_measure", "model_constant_usage", "calendar", "col_27"
+                   , "history_window", "fcst_horizon", "seasonal_cycle", "ma_adjust", "conf_level"
+                   , "col_33", "best_fit_model_set", "best_fit_holdout_period", "best_fit_fcst_lag"
+                   , "col_37", "arima_constant", "arima_terms_ar", "arima_terms_ma", "arima_terms_diff"
+                   , "col_42", "ets_param_set", "elastic_net_weight", "elastic_net_regu", "arimax_constant"
+                   , "arimax_diff", "ac_conf_level", "ac_conf_level_apply", "col_50", "hist_start_date"
+                   , "use_items_actuals", "hist_from_other_items", "hist_from_count", "col_55", "hist_by_other_items"
+                   , "col_57", "adjust_start_date", "adjust_profile", "adjust_quantity", "adjust_multiplier"
+                   , "col_62", "fcst_start_date", "fcst_stop_date", "override_fcst_start_date", "override_fcst_stop_date"
+                   , "outlier_type", "outlier_view", "has_outliers", "outlier_data", "outlier_detection"
+                   , "outlier_threshold", "outlier_ma_window", "output_errors", "output_charac")
 
-segmentation_lab <- c("fcst_item", "fcst_item_local_desc", "abc", "abc_volume", "abc_revenue", "xyz", "total_volume"
+
+segmentation_lab <- c("forecast_item", "forecast_item_local_desc", "abc", "abc_volume", "abc_revenue", "xyz", "total_volume"
                       , "total_volume_perc", "total_volume_cum", "total_revenue", "total_revenue_perc"
                       , "total_revenue_cum", "cov")
 
 
 level_def_lab <- c("gmid", "desc", "local_desc", "customer", "prod_family", "site", "part_market","gmid_site"
   ,"gmid_2","gmid_region","market_gmid_local_desc","market_prov_gmid_local_desc"
-  ,"market_prov_local_bu_gmid_local_desc","gmid_customer_channel","fcst_item_editable"
-  ,"fcst_item_calculated","fcst_item_current")
+  ,"market_prov_local_bu_gmid_local_desc","gmid_customer_channel","forecast_item_editable"
+  ,"forecast_item_calculated","forecast_item_current")
 
-act_reg_summ_lab <- c("fcst_item", "item_category", "fcst_model", "reg_name", "lag", "col_x6"
+act_reg_summ_lab <- c("forecast_item", "item_category", "fcst_model", "reg_name", "lag", "col_x6"
                       , "estimate", "p_value", "standard_error", "t_stat")
 
 rename_cols <- c("x01_01_"="jan_20", "x02_01_"="feb_20", "x03_01_"="mar_20"
@@ -422,9 +417,9 @@ rename_cols <- c("x01_01_"="jan_20", "x02_01_"="feb_20", "x03_01_"="mar_20"
                  , "x07_01_"="jul_20", "x08_01_"="aug_20", "x09_01_"="sep_20"
                  , "x10_01_"="oct_20", "x11_01_"="nov_20", "x12_01_"="dec_20"
                  , "x2"="fcst_type", "reference_plan_1_unconstrained_forecast"="unc_fcst"
-                 , "bb_statistical"="stat_fcst", "forecast_item"="fcst_item")
+                 , "bb_statistical"="stat_fcst", "forecast_item"="forecast_item")
 
-fcst_reg_items_lab_v1 <- c("select", "col_x2", "fcst_item", "col_x4", "fcst_category", "col_x6"
+fcst_reg_items_lab_v1 <- c("select", "col_x2", "forecast_item", "col_x4", "fcst_category", "col_x6"
                         , "reg_total", "reg_active"
                         , "weight_decay_factor", "elastic_net_weight"
                         , "elastic_net_regu", "arimax_constant", "arimax_diff"
@@ -433,7 +428,7 @@ fcst_reg_items_lab_v1 <- c("select", "col_x2", "fcst_item", "col_x4", "fcst_cate
                         , "ac_conf_level", "col_x21", "actuals_category"
                         , "x_6", "history_window", "fcst_horizon", "seasonal_cycle")
 
-fcst_reg_items_lab_v2 <- c("select", "col_x2", "fcst_item", "col_x4", "fcst_category"
+fcst_reg_items_lab_v2 <- c("select", "col_x2", "forecast_item", "col_x4", "fcst_category"
                            , "unit_measure_fcst", "unit_measure_control_set", "col_x8", "reg_total"
                            , "reg_active", "param_set", "weight_decay_factor", "elastic_net_weight"
                            , "elastic_net_regu", "arimax_constant", "arimax_diff"
@@ -442,7 +437,7 @@ fcst_reg_items_lab_v2 <- c("select", "col_x2", "fcst_item", "col_x4", "fcst_cate
                            , "fit_measure", "calendar", "col_x27", "actuals_category", "col_x29"
                            , "history_window", "fcst_horizon", "seasonal_cycle", "ma_adjust")
 
-reg_usage_summ_lab <- c("fcst_item", "reg_name", "process_rule", "lag")
+reg_usage_summ_lab <- c("forecast_item", "reg_name", "process_rule", "lag")
 
 
 
