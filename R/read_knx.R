@@ -322,7 +322,7 @@ read_stat_outlier_clean <- function(file){
   }
 
   read_knx_tmp() %>%
-    rename(forecast_item = 1, fcst_category = 2, actuals_category = 3, outlier_conf = 4
+    rename(forecast_item = 1, forecast_category = 2, actuals_category = 3, outlier_conf = 4
            , outlier_summary = 5, series_type_1 = 6, series_type_2 = 7) %>%
     clean_names() %>% # janitor
     setNames(nm = rename_knx(names(.)))
@@ -383,19 +383,19 @@ read_demand_waterfall <- function(file){
 # Column names ------------------------------------------------------------
 
 fcst_conf_lab <- c("abc", "xyz", "total_buckets", "forecast_item", "local_description"
-                   , "baseline", "item_category", "unit_measure_fcst", "col_09"
+                   , "baseline", "item_category", "unit_measure_forecast", "col_09"
                    , "unit_measure_control_set", "actuals_category", "item_usage_rule"
                    , "item_status_update", "col_14", "configured", "col_16", "lifecycle"
-                   , "col_18", "model_param_set", "skip_leading_zeros", "holdout", "fcst_model"
+                   , "col_18", "model_param_set", "skip_leading_zeros", "holdout", "forecast_model"
                    , "trend_decay_factor", "fit_measure", "model_constant_usage", "calendar", "col_27"
                    , "intervals_historical", "intervals_forecast", "intervals_seasonal_cycle", "intervals_ma_adjust"
-                   , "confidence_level", "col_33", "best_fit_model_set", "best_fit_holdout_period", "best_fit_fcst_lag"
+                   , "confidence_level", "col_33", "best_fit_model_set", "best_fit_holdout_period", "best_fit_forecast_lag"
                    , "col_37", "arima_constant", "arima_terms_ar", "arima_terms_ma", "arima_terms_diff"
                    , "col_42", "ets_param_set", "elastic_net_weight", "elastic_net_regu", "arimax_constant"
                    , "arimax_diff", "ac_conf_level", "ac_conf_level_apply", "col_50", "hist_start_date"
                    , "use_items_actuals", "hist_from_other_items", "hist_from_count", "col_55", "hist_by_other_items"
                    , "col_57", "adjust_start_date", "adjust_profile", "adjust_quantity", "adjust_multiplier"
-                   , "col_62", "fcst_start_date", "fcst_stop_date", "override_fcst_start_date", "override_fcst_stop_date"
+                   , "col_62", "forecast_start_date", "forecast_stop_date", "override_forecast_start_date", "override_forecast_stop_date"
                    , "outlier_type", "outlier_view", "has_outliers", "outlier_data", "outlier_detection"
                    , "outlier_threshold", "outlier_ma_window", "output_errors", "output_charac")
 
@@ -414,7 +414,7 @@ level_def_lab <- c("gmid_id", "description", "local_description", "customer", "p
                         , "current_forecast_item_configuration")
 
 
-act_reg_summ_lab <- c("forecast_item", "item_category", "fcst_model", "reg_name", "lag", "col_x6"
+act_reg_summ_lab <- c("forecast_item", "item_category", "forecast_model", "reg_name", "lag", "col_x6"
                       , "estimate", "p_value", "standard_error", "t_stat")
 
 rename_cols <- c("x01_01_"="jan_20", "x02_01_"="feb_20", "x03_01_"="mar_20"
