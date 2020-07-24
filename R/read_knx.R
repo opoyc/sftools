@@ -133,7 +133,7 @@ read_lev_def <- function(file){
   }
 
   read_knx_tmp() %>%
-    clean_names()
+    setNames(nm = level_def_lab)
 }
 
 #' Reading Active Regressor Summary helper
@@ -399,15 +399,19 @@ fcst_conf_lab <- c("abc", "xyz", "total_buckets", "forecast_item", "local_descri
                    , "outlier_threshold", "outlier_ma_window", "output_errors", "output_charac")
 
 
-segmentation_lab <- c("forecast_item", "forecast_item_local_desc", "abc", "abc_volume", "abc_revenue", "xyz", "total_volume"
-                      , "total_volume_perc", "total_volume_cum", "total_revenue", "total_revenue_perc"
-                      , "total_revenue_cum", "cov")
+segmentation_lab <- c("forecast_item", "forecast_item_local_description", "abc", "abc_volume", "abc_revenue"
+  , "xyz", "total_volume", "total_volume_percent"
+  , "total_volume_cummulative", "total_revenue"
+  , "total_revenue_percent", "total_revenue_cummulative"
+  , "cov")
 
 
-level_def_lab <- c("gmid", "desc", "local_desc", "customer", "prod_family", "site", "part_market","gmid_site"
-  ,"gmid_2","gmid_region","market_gmid_local_desc","market_prov_gmid_local_desc"
-  ,"market_prov_local_bu_gmid_local_desc","gmid_customer_channel","forecast_item_editable"
-  ,"forecast_item_calculated","forecast_item_current")
+level_def_lab <- c("gmid_id", "description", "local_description", "customer", "product_family", "site"
+                        , "forecast_item_part_market", "gmid_site", "gmid", "gmid_region", "market_gmid"
+                        , "market_province_gmid", "market_province_local_bu_gmid", "gmid_cust_channel"
+                        , "forecast_item_selection_editable", "calculated_forecast_item"
+                        , "current_forecast_item_configuration")
+
 
 act_reg_summ_lab <- c("forecast_item", "item_category", "fcst_model", "reg_name", "lag", "col_x6"
                       , "estimate", "p_value", "standard_error", "t_stat")
