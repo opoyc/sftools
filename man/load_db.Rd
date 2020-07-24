@@ -4,7 +4,7 @@
 \alias{load_db}
 \title{Get Sanofi product descriptors}
 \usage{
-load_db(db, path = TRUE, on_globalenv = FALSE)
+load_db(db, default_path = TRUE)
 }
 \arguments{
 \item{db}{string. For now "GBU" and "LSD" are available.}
