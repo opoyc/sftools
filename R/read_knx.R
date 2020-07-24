@@ -254,12 +254,13 @@ read_fcst_reg_item <- function(file){
 
   tmp <- read_knx_tmp()
 
-  if(ncol(tmp)==26){
-    tmp %>% setNames(nm = fcst_reg_items_lab_v1)
+  if(ncol(tmp)==27){
+    tmp %>% setNames(nm = fcst_reg_items_lab)
   } else {
-    tmp %>% setNames(nm = fcst_reg_items_lab_v2)
+    tmp %>% setNames(nm = fcst_reg_items_lab_details)
   }
 }
+
 
 #' Reading Regressor Usage Summary helper
 #'
@@ -387,8 +388,8 @@ fcst_conf_lab <- c("abc", "xyz", "total_buckets", "forecast_item", "local_descri
                    , "item_status_update", "col_14", "configured", "col_16", "lifecycle"
                    , "col_18", "model_param_set", "skip_leading_zeros", "holdout", "fcst_model"
                    , "trend_decay_factor", "fit_measure", "model_constant_usage", "calendar", "col_27"
-                   , "history_window", "fcst_horizon", "seasonal_cycle", "ma_adjust", "conf_level"
-                   , "col_33", "best_fit_model_set", "best_fit_holdout_period", "best_fit_fcst_lag"
+                   , "intervals_historical", "intervals_forecast", "intervals_seasonal_cycle", "intervals_ma_adjust"
+                   , "confidence_level", "col_33", "best_fit_model_set", "best_fit_holdout_period", "best_fit_fcst_lag"
                    , "col_37", "arima_constant", "arima_terms_ar", "arima_terms_ma", "arima_terms_diff"
                    , "col_42", "ets_param_set", "elastic_net_weight", "elastic_net_regu", "arimax_constant"
                    , "arimax_diff", "ac_conf_level", "ac_conf_level_apply", "col_50", "hist_start_date"
@@ -423,23 +424,26 @@ rename_cols <- c("x01_01_"="jan_20", "x02_01_"="feb_20", "x03_01_"="mar_20"
                  , "x2"="fcst_type", "reference_plan_1_unconstrained_forecast"="unc_fcst"
                  , "bb_statistical"="stat_fcst", "forecast_item"="forecast_item")
 
-fcst_reg_items_lab_v1 <- c("select", "col_x2", "forecast_item", "col_x4", "fcst_category", "col_x6"
-                        , "reg_total", "reg_active"
-                        , "weight_decay_factor", "elastic_net_weight"
-                        , "elastic_net_regu", "arimax_constant", "arimax_diff"
-                        , "col_x14", "skip_leading_zeros", "model_param_set"
-                        , "param_model_constant", "fcst_model", "trend_decay_factor"
-                        , "ac_conf_level", "col_x21", "actuals_category"
-                        , "x_6", "history_window", "fcst_horizon", "seasonal_cycle")
+fcst_reg_items_lab <- c("select", "col_02", "forecast_item", "local_description", "col_05"
+                        , "forecast_category", "col_07", "regressors_total", "regressors_active"
+                        , "weight_decay_factor", "elastic_net_weight", "elastic_net_regu"
+                        , "arimax_constant", "arimax_difference_level", "col_15", "skip_leading_zeros"
+                        , "model_param_set", "model_param_constant_usage", "forecast_model"
+                        , "trend_decay_factor", "autocorrelation_confidence_level", "col_22"
+                        , "actuals_category", "col_24", "intervals_historical", "intervals_forecast"
+                        , "intervals_seasonal_cycle")
 
-fcst_reg_items_lab_v2 <- c("select", "col_x2", "forecast_item", "col_x4", "fcst_category"
-                           , "unit_measure_fcst", "unit_measure_control_set", "col_x8", "reg_total"
-                           , "reg_active", "param_set", "weight_decay_factor", "elastic_net_weight"
-                           , "elastic_net_regu", "arimax_constant", "arimax_diff"
-                           , "col_x17", "skip_leading_zeros", "control_set", "model_param_set"
-                           , "param_model_constant", "fcst_model", "trend_decay_factor", "ac_conf_level"
-                           , "fit_measure", "calendar", "col_x27", "actuals_category", "col_x29"
-                           , "history_window", "fcst_horizon", "seasonal_cycle", "ma_adjust")
+fcst_reg_items_lab_details <- c("select", "col_02", "forecast_item", "local_description", "col_05"
+                           , "forecast_category", "unit_measure_forecast", "unit_measure_control_set"
+                           , "col_09", "regressors_total", "regressors_active", "model_param_set"
+                           , "weight_decay_factor", "elastic_net_weight", "elastic_net_regu"
+                           , "arimax_constant", "arimax_difference_level", "col_18", "skip_leading_zeros"
+                           , "control_set", "model_param_set", "model_param_constant_usage"
+                           , "forecast_model", "trend_decay_factor", "autocorrelation_confidence_level"
+                           , "fit_measure", "calendar", "col_28", "actuals_category", "col_30"
+                           , "intervals_historical", "intervals_forecast", "intervals_seasonal_cycle"
+                           , "intervals_moving_average")
+
 
 reg_usage_summ_lab <- c("forecast_item", "reg_name", "process_rule", "lag")
 
