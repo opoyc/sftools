@@ -28,22 +28,23 @@ read_knx <- function(file){
 # Function mapping --------------------------------------------------------
 
 fnc_map <- tibble::tribble(
-                                                       ~regex,              ~int_function,
-  "\\[Forecast Item\\] - ABC XYZ Calculation(\\{\\})?(?=\\.)",                 "read_seg",
-          "\\[Forecast Item\\] Configuration(\\{\\})?(?=\\.)",           "read_fcst_conf",
-       "\\[Forecast Item\\] Level Definition(\\{\\})?(?=\\.)",             "read_lev_def",
-                   "Active Regressor Summary(\\{\\})?(?=\\.)",        "read_act_reg_summ",
-          "Causal Factor Cleansing - Summary(\\{\\})?(?=\\.)", "read_causal_factor_clean",
-                      "Edit Regressor Values(\\{\\})?(?=\\.)",     "read_edit_reg_values",
-                        "Forecast Comparison(\\{\\})?(?=\\.)",           "read_fcst_comp",
-                             "Forecast Items(\\{\\})?(?=\\.)",       "read_fcst_reg_item",
-                               "life savings(\\{\\})?(?=\\.)",           "read_fcst_conf",
-                    "Regressor Usage Summary(\\{\\})?(?=\\.)",      "read_reg_usage_summ",
-                           "Regressor Values(\\{\\})?(?=\\.)",          "read_reg_values",
-                                 "Regressors(\\{\\})?(?=\\.)",          "read_regressors",
-             "Statistical Outliers Cleansing(\\{\\})?(?=\\.)",  "read_stat_outlier_clean",
-                      "WID  Demand WaterFall(\\{\\})?(?=\\.)",    "read_demand_waterfall"
+                                                                  ~regex,              ~int_function,
+  "\\[Forecast Item\\] - ABC XYZ Calculation(\\{[A-Za-z0-9]+\\})?(?=\\.)",                 "read_seg",
+          "\\[Forecast Item\\] Configuration(\\{[A-Za-z0-9]+\\})?(?=\\.)",           "read_fcst_conf",
+       "\\[Forecast Item\\] Level Definition(\\{[A-Za-z0-9]+\\})?(?=\\.)",             "read_lev_def",
+                   "Active Regressor Summary(\\{[A-Za-z0-9]+\\})?(?=\\.)",        "read_act_reg_summ",
+          "Causal Factor Cleansing - Summary(\\{[A-Za-z0-9]+\\})?(?=\\.)", "read_causal_factor_clean",
+                      "Edit Regressor Values(\\{[A-Za-z0-9]+\\})?(?=\\.)",     "read_edit_reg_values",
+                        "Forecast Comparison(\\{[A-Za-z0-9]+\\})?(?=\\.)",           "read_fcst_comp",
+                             "Forecast Items(\\{[A-Za-z0-9]+\\})?(?=\\.)",       "read_fcst_reg_item",
+                               "life savings(\\{[A-Za-z0-9]+\\})?(?=\\.)",           "read_fcst_conf",
+                    "Regressor Usage Summary(\\{[A-Za-z0-9]+\\})?(?=\\.)",      "read_reg_usage_summ",
+                           "Regressor Values(\\{[A-Za-z0-9]+\\})?(?=\\.)",          "read_reg_values",
+                                 "Regressors(\\{[A-Za-z0-9]+\\})?(?=\\.)",          "read_regressors",
+             "Statistical Outliers Cleansing(\\{[A-Za-z0-9]+\\})?(?=\\.)",  "read_stat_outlier_clean",
+                      "WID  Demand WaterFall(\\{[A-Za-z0-9]+\\})?(?=\\.)",    "read_demand_waterfall"
   )
+
 
 
 
