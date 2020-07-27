@@ -19,6 +19,7 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 Imports:
+    rlang,
     janitor, 
     dplyr, 
     readr, 
@@ -37,4 +38,4 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
