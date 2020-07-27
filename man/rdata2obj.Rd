@@ -20,3 +20,6 @@ This simple function receives a RData and passes as object to be assigned
 rdata2object("path")
 }
 }
+\author{
+Obryan Poyser
+}

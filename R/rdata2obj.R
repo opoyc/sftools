@@ -3,7 +3,7 @@
 #' This simple function receives a RData and passes as object to be assigned
 #'
 #' @param path String. Path to RData file
-#'
+#' @author Obryan Poyser
 #' @return
 #'
 #' @examples

@@ -9,9 +9,7 @@ load_db(db, default_path = TRUE)
 \arguments{
 \item{db}{string. For now "GBU" and "LSD" are available.}
 
-\item{path}{logical = TRUE, if a path is provided replace the default path.}
-
-\item{on_globalenv}{logical. Defines is the dataframe should be loaded in the global environment or not.}
+\item{default_path}{logical = TRUE, if a path is provided replace the default path.}
 }
 \value{
 tibble
