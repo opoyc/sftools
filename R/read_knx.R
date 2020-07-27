@@ -322,7 +322,7 @@ read_stat_outlier_clean <- function(file){
   }
 
   read_knx_tmp() %>%
-    rename(forecast_item = 1, fcst_category = 2, actuals_category = 3, outlier_conf = 4
+    rename(forecast_item = 1, forecast_category = 2, actuals_category = 3, outlier_conf = 4
            , outlier_summary = 5, series_type_1 = 6, series_type_2 = 7) %>%
     clean_names() %>% # janitor
     setNames(nm = rename_knx(names(.)))
@@ -395,9 +395,10 @@ fcst_conf_lab <- c("abc", "xyz", "total_buckets", "forecast_item", "local_descri
                    , "arimax_diff", "ac_conf_level", "ac_conf_level_apply", "col_50", "hist_start_date"
                    , "use_items_actuals", "hist_from_other_items", "hist_from_count", "col_55", "hist_by_other_items"
                    , "col_57", "adjust_start_date", "adjust_profile", "adjust_quantity", "adjust_multiplier"
-                   , "col_62", "fcst_start_date", "fcst_stop_date", "override_fcst_start_date", "override_fcst_stop_date"
-                   , "outlier_type", "outlier_view", "has_outliers", "outlier_data", "outlier_detection"
-                   , "outlier_threshold", "outlier_ma_window", "output_errors", "output_charac")
+                   , "col_62", "forecast_start_date", "forecast_stop_date", "override_forecast_start_date"
+                   , "override_forecast_stop_date", "outlier_type", "outlier_view", "has_outliers", "outlier_data"
+                   , "outlier_detection", "outlier_threshold", "outlier_ma_window", "output_errors", "output_charac"
+                   )
 
 
 segmentation_lab <- c("forecast_item", "forecast_item_local_description", "abc", "abc_volume", "abc_revenue"
@@ -414,15 +415,15 @@ level_def_lab <- c("gmid_id", "description", "local_description", "customer", "p
                         , "current_forecast_item_configuration")
 
 
-act_reg_summ_lab <- c("forecast_item", "item_category", "fcst_model", "reg_name", "lag", "col_x6"
+act_reg_summ_lab <- c("forecast_item", "item_category", "forecast_model", "reg_name", "lag", "col_x6"
                       , "estimate", "p_value", "standard_error", "t_stat")
 
 rename_cols <- c("x01_01_"="jan_20", "x02_01_"="feb_20", "x03_01_"="mar_20"
                  , "x04_01_"="apr_20", "x05_01_"="may_20", "x06_01_"="jun_20"
                  , "x07_01_"="jul_20", "x08_01_"="aug_20", "x09_01_"="sep_20"
                  , "x10_01_"="oct_20", "x11_01_"="nov_20", "x12_01_"="dec_20"
-                 , "x2"="fcst_type", "reference_plan_1_unconstrained_forecast"="unc_fcst"
-                 , "bb_statistical"="stat_fcst", "forecast_item"="forecast_item")
+                 , "x2"="forecast_type", "reference_plan_1_unconstrained_forecast"="unc_forecast"
+                 , "bb_statistical"="stat_forecast", "forecast_item"="forecast_item")
 
 fcst_reg_items_lab <- c("select", "col_02", "forecast_item", "local_description", "col_05"
                         , "forecast_category", "col_07", "regressors_total", "regressors_active"
